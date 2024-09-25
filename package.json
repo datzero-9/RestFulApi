@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "connect-flash": "^0.1.1",
+    "dotenv": "16.0.3",
+    "ejs": "3.1.8",
+    "express": "^4.21.0",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.6.3",
+    "mongoose-slug-updater": "^3.3.0",
+    "sweetalert2": "^11.14.1"
+  },
+  "scripts": {
+    "start": "nodemon src/server.js"
+  }
+}

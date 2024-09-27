@@ -1,0 +1,22 @@
+<div class="my-2">
+<h4>Chỉnh sửa sản phẩm:</h4>
+    <form method="POST" action="/course/update/{{Products._id}}?_method=PUT">
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên mới:</label>
+            <input name="name" type="text" class="form-control" id="name" aria-describedby="emailHelp"
+                value="{{Products.name}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Giá mới:</label>
+            <input name="price" type="number" class="form-control" id="name" aria-describedby="emailHelp"
+                value="{{Products.price}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả:</label>
+            <input name="description" type="text" class="form-control" value="{{Products.description}}">
+        </div>
+
+        <button type="submit" class="btn btn-warning">xác nhận</button>
+    </form>
+
+</div>

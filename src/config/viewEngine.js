@@ -1,23 +1,37 @@
 const path = require('path');
 const express = require('express')
 const methodOverride = require('method-override');
-const session = require('express-session');
-const flash = require('express-flash');
+const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
 const ViewEngine = (app) => {
-    // console.log(__dirname)
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
+
+    //template handlebars
+    const hbs = exphbs.create({
+        helpers: {
+            format: (number) => {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            },
+            sum: (a, b) => {
+                return a+b;
+            }
+        }
+    });
+    
+    // Cấu hình Handlebars engine
+    app.engine('handlebars', hbs.engine);
+    app.set('view engine', 'handlebars');
+
+    // app.engine('handlebars', handlebars.engine());
+    // app.set('view engine','handlebars')
     app.set('views', path.join('./src', 'views'));
-    app.set('view engine', 'ejs');
+
     app.use(express.static(path.join('./src', 'public')));
+
     app.use(methodOverride('_method'))
-    // Sử dụng express-flash và express-session
-    app.use(session({
-        secret: 'secret',
-        resave: false,
-        saveUninitialized: true
-    }));
-    app.use(flash());
+
+    
 }
 module.exports = ViewEngine;

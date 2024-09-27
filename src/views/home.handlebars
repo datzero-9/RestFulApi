@@ -1,0 +1,53 @@
+<div class="container-xxl">
+
+    <table class="my-2 table" border="1">
+        <thead>
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Danh mục</th>
+                <th scope="col">Ảnh</th>
+                <th scope="col">Giá sản phẩm</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each Products}}
+            <tr>
+                <td>{{sum @index 1}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.category}}</td>
+                <td> <img style="width: 80px; height: 50px;" src="{{this.image}}" alt=""></td>
+                <td>{{format this.price}}đ</td>
+                <td>
+                    <a href="/course/edit/{{this._id}}" class="btn btn-warning">Edit</a>
+                    <a href="/course/delete/{{this._id}}?_method=DELETE" class="btn btn-danger deleteProduct">Delete</a>
+                </td>
+            </tr>
+            {{/each}}
+            <!-- Thêm các hàng khác tương tự cho các sản phẩm khác -->
+        </tbody>
+    </table>
+</div>
+<script>
+
+    var deleteProducts = document.querySelectorAll('.deleteProduct');
+
+    deleteProducts.forEach(function (deleteProduct) {
+        deleteProduct.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            var href = deleteProduct.getAttribute('href');
+            var id = href.split('/').pop();
+
+            var result = confirm('Bạn muốn xóa sản phẩm');
+            if (result) {
+                console.log('Xóa sản phẩm có ID ' + id);
+                window.location.href = href;
+            } else {
+                console.log('Hủy xóa sản phẩm có ID ' + id);
+            }
+        });
+    });
+
+</script>

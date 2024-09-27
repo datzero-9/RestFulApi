@@ -3,8 +3,10 @@ const Schema = mongoose.Schema;
 var slug = require('mongoose-slug-updater')
 mongoose.plugin(slug);
 
-const Course = new Schema({
+const Product = new Schema({
     name: { type: String },
+    category: { type: String },
+    price: { type: Number },
     description: { type: String },
     image: { type: String },
     slug: { type: String, slug: "name", unique:true },
@@ -13,4 +15,4 @@ const Course = new Schema({
 
   });
   
-module.exports = mongoose.model('Course',Course);
+module.exports = mongoose.model('Product',Product);

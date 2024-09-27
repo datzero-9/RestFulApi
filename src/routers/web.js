@@ -1,14 +1,19 @@
 const express = require('express')
 const router = express.Router();
-const { getHomepage, getCourse, Create, updateCourse, edit,deleteCourse } = require('../controllers/homeController')
+
+const getHomepage = require('../controllers/crudProducts/read')
+const {Create ,addProduct} = require('../controllers/crudProducts/create')
+const {updateCourse,edit} = require('../controllers/crudProducts/edit')
+
+const deleteCourse = require('../controllers/crudProducts/delete')
+
 
 
 router.get('/',getHomepage)
-
+router.get('/add',addProduct)
 router.post('/course/create',Create)
-router.get('/course/:slug',getCourse)
-router.get('/course/update/:id',updateCourse)
-router.put('/course/edit/:id',edit)
-router.delete('/course/delete/:id',deleteCourse)
+router.put('/course/update/:id',updateCourse)
+router.get('/course/edit/:id',edit)
+router.get('/course/delete/:id',deleteCourse)
 
 module.exports = router;

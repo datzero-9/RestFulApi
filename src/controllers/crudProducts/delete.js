@@ -12,7 +12,7 @@ const deleteCourse = async (req, res) => {
             return res.status(404).send('Không tìm thấy khóa học để xóa.');
         }
 
-        res.redirect('/');
+        res.redirect('/admin');
     } catch (error) {
         console.error('Lỗi khi xóa khóa học:', error);
         res.status(500).send('Lỗi máy chủ nội bộ');

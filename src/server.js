@@ -3,16 +3,13 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const ViewEngine = require('./config/viewEngine')
-var bodyParser = require('body-parser');
 const router = require('./routers/web')
 const port = process.env.PORT || 3000;
 const hostname = process.env.HOST_NAME;
 const mongoose = require('mongoose');
+const Account = require('./models/accounts')
 
-const register = require('./controllers/accounts/register')
-
-
-
+const { register, login, createRegister, dangnhap,logout } = require('./controllers/accounts/register')
 
 //connect database mongose
 async function connect() {
@@ -21,24 +18,34 @@ async function connect() {
         console.log('connect thành công')
     } catch (error) {
         console.log('connect không thành công')
-
     }
 }
 connect()
 
 // config template engine
 ViewEngine(app)
+app.get('/', register)
+app.post('/', createRegister)
+app.get('/login', login)
+app.post('/login', dangnhap)
+app.get('/logout', logout);
 
-
-const checkAdmin = (req, res, next) => {
-    if (true) {
-        next()
+const checkLogin = (req, res, next) => {
+    if (req.session.user) {
+        next();
     } else {
-
+        res.redirect('/login');
     }
 }
-app.get('/', register)
-app.use('/admin', router)
+const checkAdmin = (req, res, next) => {
+    if (req.session.user && req.session.user.role === 'admin') {
+        next();
+    } else {
+        res.send('Bạn không đủ thẩm quyền');
+    }
+}
+
+app.use('/admin', checkLogin, checkAdmin, router)
 
 app.listen(port, () => {
     console.log(`đang chạy ở cổng http://${hostname}:${port}`)

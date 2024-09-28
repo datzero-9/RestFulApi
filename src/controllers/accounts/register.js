@@ -1,8 +1,70 @@
 
-const Product = require('../../models/crud')
-
-const register = async (req, res) => {
-res.render('register',{layout:false})
+const Account = require('../../models/accounts')
+const session = require('express-session');
+const register = (req, res) => {
+  res.render('register', { layout: false })
 }
 
-module.exports = register;
+const createRegister = async (req, res) => {
+  try {
+    const { name, username, password } = req.body;
+    // Tìm tài khoản đã tồn tại
+    const existingAccount = await Account.findOne({ username });
+    if (existingAccount) {
+      return res.status(409).json({ message: 'Tài khoản đã tồn tại' });
+    }
+    // Tạo tài khoản mới
+    const newAccount = new Account({
+      name,
+      username,
+      password,
+    });
+    await newAccount.save();
+
+    res.render('login', { layout: false, title: true })
+  } catch (error) {
+    console.error('Error creating account:', error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
+  }
+};
+
+
+const login = (req, res) => {
+  res.render('login', { layout: false })
+}
+
+const dangnhap = async (req, res) => {
+  try {
+    const username = req.body.username;
+    const password = req.body.password;
+    // Tìm tài khoản đã tồn tại
+    const existingAccount = await Account.findOne({ username: username, password: password });
+
+    if (existingAccount) {
+      req.session.user = {
+        id: existingAccount._id,
+        name: existingAccount.name,
+        role: existingAccount.role,
+      };
+      console.log(req.session.user.role)
+      res.redirect(`/admin?username=${existingAccount.name}`);
+    } else {
+      res.render('login', { layout: false, mess: true })
+    }
+  } catch (error) {
+    console.error('Error creating account:', error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
+  }
+}
+const logout =  (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    } else {
+      res.clearCookie('connect.sid');
+      res.redirect('/login');
+    }
+  });
+
+}
+module.exports = { register, login, createRegister, dangnhap,logout };

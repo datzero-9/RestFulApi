@@ -3,8 +3,9 @@ const Product = require('../../models/crud')
 
 const getHomepage = async (req, res) => {
     try {
+        const username = req.query.username;
         const Products = await Product.find().lean();
-        res.render('home', { Products });
+        res.render('home', { Products,username });
         // res.json(courses)
        
     } catch (error) {

@@ -1,0 +1,32 @@
+@charset "UTF-8";
+.registers {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-image: url("https://img.pikbest.com/ai/illus_our/20230418/64e0e89c52dec903ce07bb1821b4bcc8.jpg!w700wp");
+  background-repeat: no-repeat;
+  /* Ngn chặn hình ảnh lặp lại */
+  padding: 100px; }
+
+.regis {
+  width: 300px;
+  background-color: #f2f2f2;
+  /* Màu nền xám nhạt */
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 0 auto; }
+
+.regis h2 {
+  text-align: center;
+  color: #333; }
+
+.regis input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px; }
+
+.regis button:hover {
+  background-color: #3e8e41; }

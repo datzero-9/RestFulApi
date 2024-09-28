@@ -4,21 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/register.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Document</title>
+
+    <title>Đăng ký tài khoản</title>
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="text-center">Đăng kí tài khoản</h1>
-        <div class="mb-3">
-            <label for="formGroupExampleInput" class="form-label">Example label</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
-        </div>
-        <div class="mb-3">
-            <label for="formGroupExampleInput2" class="form-label">Another label</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
+    <div class="registers">
+        {{!-- <img src="/images/betrang.jpg" alt=""> --}}
+        <div class=" regis p-3">
+            <form method="POST" action="/">
+                <h3 class="text-center">Đăng ký tài khoản</h3>
+                <div class="mb-3">
+                    <label class="form-label">Tên người dùng:</label>
+                    <input name="name" type="text" class="form-control" placeholder="Nhập tên người dùng" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tài khoản:</label>
+                    <input name="username" type="text" class="form-control" placeholder="Nhập tài khoản đăng ký" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mật khẩu:</label>
+                    <input name="password" type="password" class="form-control" placeholder="Nhập mật khẩu" required>
+                </div>
+                {{!-- <div class="mb-3">
+                    <label class="form-label">Nhập lại mật khẩu:</label>
+                    <input name="originalPassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu">
+                </div> --}}
+                <div class="text-end">
+                    <a href="/login" class="btn btn-warning">Đã có tài khoản</a>
+                    <button class="btn btn-success" type="submit">Đăng ký</button>
+                </div>
+            </form>
         </div>
     </div>
 </body>

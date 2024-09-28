@@ -18,7 +18,7 @@ const Create = async (req, res) => {
             // slug: req.body.name + 'xyx'
         });
         await newCourse.save(); // Lưu sản phẩm mới vào cơ sở dữ liệu
-        res.redirect('/')
+        res.redirect('/admin')
     } catch (error) {
         console.error('Error creating course:', error);
         res.status(500).send('Lỗi không thể thêm dữ liệu');

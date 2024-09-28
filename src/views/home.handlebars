@@ -20,8 +20,8 @@
                 <td> <img style="width: 80px; height: 50px;" src="{{this.image}}" alt=""></td>
                 <td>{{format this.price}}đ</td>
                 <td>
-                    <a href="/course/edit/{{this._id}}" class="btn btn-warning">Edit</a>
-                    <a href="/course/delete/{{this._id}}?_method=DELETE" class="btn btn-danger deleteProduct">Delete</a>
+                    <a href="/admin/course/edit/{{this._id}}" class="btn btn-warning">Edit</a>
+                    <a href="/admin/course/delete/{{this._id}}?_method=DELETE" class="btn btn-danger deleteProduct">Delete</a>
                 </td>
             </tr>
             {{/each}}

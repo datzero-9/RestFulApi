@@ -20,7 +20,7 @@ const updateCourse = async (req, res) => {
         Products.price = req.body.price;
         Products.description = req.body.description;
         await Products.save()
-        res.redirect('/');
+        res.redirect('/admin');
     } catch (error) {
         console.error('Error fetching courses:', error);
         res.status(500).send('Internal Server Error');

@@ -4,11 +4,11 @@ const app = express()
 const path = require('path')
 const ViewEngine = require('./config/viewEngine')
 const router = require('./routers/web')
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 const hostname = process.env.HOST_NAME;
 const mongoose = require('mongoose');
 const Account = require('./models/accounts')
-
+var cors = require('cors')
 const { register, login, createRegister, dangnhap,logout } = require('./controllers/accounts/register')
 
 //connect database mongose
@@ -24,6 +24,8 @@ connect()
 
 // config template engine
 ViewEngine(app)
+app.use(cors())
+
 app.get('/', register)
 app.post('/', createRegister)
 app.get('/login', login)
@@ -45,7 +47,8 @@ const checkAdmin = (req, res, next) => {
     }
 }
 
-app.use('/admin', checkLogin, checkAdmin, router)
+app.use('/admin' , router)
+
 
 app.listen(port, () => {
     console.log(`đang chạy ở cổng http://${hostname}:${port}`)

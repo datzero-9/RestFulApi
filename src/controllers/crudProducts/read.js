@@ -6,8 +6,8 @@ const getHomepage = async (req, res) => {
         console.log('Request : GET')
         const username = req.query.username;
         const Products = await Product.find().lean();
-       // res.render('home', { Products,username });
-         res.json(Products)
+       res.render('home', { Products,username });
+       //  res.json(Products)
        
     } catch (error) {
         console.error('Error fetching courses:', error);

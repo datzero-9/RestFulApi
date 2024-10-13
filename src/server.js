@@ -10,7 +10,7 @@ const mongodb = process.env.MONGODB_URL;
 const mongoose = require('mongoose');
 const Account = require('./models/accounts')
 var cors = require('cors')
-const { register, login, createRegister, dangnhap,logout } = require('./controllers/accounts/register')
+const { register, login, createRegister, dangnhap, logout } = require('./controllers/accounts/register')
 
 //connect database mongose
 async function connect() {
@@ -48,7 +48,7 @@ const checkAdmin = (req, res, next) => {
     }
 }
 
-app.use('/admin' , router)
+app.use('/admin', checkLogin, checkAdmin, router)
 
 
 app.listen(port, () => {

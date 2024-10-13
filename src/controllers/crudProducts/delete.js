@@ -3,9 +3,9 @@ const Product = require('../../models/crud')
 
 const deleteCourse = async (req, res) => {
     try {
+        console.log('User: Request Delete')
         // Loại bỏ khoảng trắng cuối cùng trong chuỗi ID
         const courseId = req.params.id;
-
         const deletedCourse = await Product.findByIdAndDelete(courseId);
 
         if (!deletedCourse) {

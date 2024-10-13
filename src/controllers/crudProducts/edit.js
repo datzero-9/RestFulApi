@@ -19,6 +19,7 @@ const updateCourse = async (req, res) => {
         Products.name = req.body.name;
         Products.price = req.body.price;
         Products.description = req.body.description;
+        console.log('User : Request PUT')
         await Products.save()
         res.redirect('/admin');
     } catch (error) {

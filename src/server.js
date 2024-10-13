@@ -6,6 +6,7 @@ const ViewEngine = require('./config/viewEngine')
 const router = require('./routers/web')
 const port = process.env.PORT || 80;
 const hostname = process.env.HOST_NAME;
+const mongodb = process.env.MONGODB_URL;
 const mongoose = require('mongoose');
 const Account = require('./models/accounts')
 var cors = require('cors')
@@ -14,7 +15,7 @@ const { register, login, createRegister, dangnhap,logout } = require('./controll
 //connect database mongose
 async function connect() {
     try {
-        await mongoose.connect('mongodb://localhost:27017/dacs4');
+        await mongoose.connect(mongodb);
         console.log('connect thành công')
     } catch (error) {
         console.log('connect không thành công')
@@ -51,5 +52,6 @@ app.use('/admin' , router)
 
 
 app.listen(port, () => {
+    console.log(mongodb)
     console.log(`đang chạy ở cổng http://${hostname}:${port}`)
 })

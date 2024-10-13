@@ -7,7 +7,6 @@ const addProduct = async (req, res) => {
 }
 
 const Create = async (req, res) => {
-    console.log(req.body)
     try {
         const newCourse = new Product({
             name: req.body.name, // Giả sử thông tin sản phẩm được gửi qua body request

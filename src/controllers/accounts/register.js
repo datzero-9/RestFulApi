@@ -46,7 +46,7 @@ const dangnhap = async (req, res) => {
         name: existingAccount.name,
         role: existingAccount.role,
       };
-      console.log(req.session.user.role)
+      console.log(`Người dùng: ${existingAccount.name} đã Đăng nhập`);
       res.redirect(`/admin?username=${existingAccount.name}`);
     } else {
       res.render('login', { layout: false, mess: true })

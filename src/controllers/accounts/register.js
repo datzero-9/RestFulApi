@@ -10,7 +10,7 @@ const createRegister = async (req, res) => {
   try {
     const { name, username, password } = req.body;
     // Tìm tài khoản đã tồn tại
-    console.log('Request: POST : Tạo tài khoản)
+    console.log('Request: POST : Tạo tài khoản')
     const existingAccount = await Account.findOne({ username });
     if (existingAccount) {
       return res.status(409).json({ message: 'Tài khoản đã tồn tại' });

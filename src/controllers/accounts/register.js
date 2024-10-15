@@ -45,7 +45,23 @@ const dangnhap = async (req, res) => {
     const existingAccount = await Account.findOne({ username: username, password: password });
 
     if (existingAccount) {
-      req.sesxuất')
+      req.session.user = {
+        id: existingAccount._id,
+        name: existingAccount.name,
+        role: existingAccount.role,
+      };
+      console.log(`Người dùng: ${existingAccount.name} đã Đăng nhập`)
+      res.redirect(`/admin?username=${existingAccount.name}`);
+    } else {
+      res.render('login', { layout: false, mess: true })
+    }
+  } catch (error) {
+    console.error('Error creating account:', error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
+  }
+}
+const logout =  (req, res) => {
+  console.log('Request : POST : Đăng xuất')
   req.session.destroy((err) => {
     if (err) {
       console.error('Error destroying session:', err);

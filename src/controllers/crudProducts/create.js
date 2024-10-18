@@ -10,6 +10,7 @@ const addProduct = async (req, res) => {
 
 const Create = async (req, res) => {
     try {
+        console.log('Request : POST')
         const newCourse = new Product({
             name: req.body.name, // Giả sử thông tin sản phẩm được gửi qua body request
             category: 'Điện thoại', // Giả sử thông tin sản phẩm được gửi qua body request

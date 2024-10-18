@@ -2,7 +2,6 @@
 const Account = require('../../models/accounts')
 const session = require('express-session');
 const register = (req, res) => {
-  console.log('Request : GET')
   res.render('register', { layout: false })
 }
 
@@ -11,6 +10,7 @@ const createRegister = async (req, res) => {
     console.log('Request : POST')
     const { name, username, password } = req.body;
     // Tìm tài khoản đã tồn tại
+    console.log('Request: POST : Tạo tài khoản')
     const existingAccount = await Account.findOne({ username });
     if (existingAccount) {
       return res.status(409).json({ message: 'Tài khoản đã tồn tại' });
@@ -32,11 +32,13 @@ const createRegister = async (req, res) => {
 
 
 const login = (req, res) => {
+  console.log('Request : GET')
   res.render('login', { layout: false })
 }
 
 const dangnhap = async (req, res) => {
   try {
+    console.log('Request : POST : Đăng nhập')
     const username = req.body.username;
     const password = req.body.password;
     // Tìm tài khoản đã tồn tại
@@ -58,6 +60,7 @@ const dangnhap = async (req, res) => {
   }
 }
 const logout =  (req, res) => {
+  console.log('Request : POST : Đăng xuất')
   req.session.destroy((err) => {
     if (err) {
       console.error('Error destroying session:', err);

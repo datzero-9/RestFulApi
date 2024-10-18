@@ -3,7 +3,9 @@ const Product = require('../../models/crud')
 
 
 const addProduct = async (req, res) => {
-    res.render('create')
+    const user = req.session.user;
+
+    res.render('create',{user})
 }
 
 const Create = async (req, res) => {

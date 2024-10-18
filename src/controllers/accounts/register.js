@@ -2,11 +2,13 @@
 const Account = require('../../models/accounts')
 const session = require('express-session');
 const register = (req, res) => {
+  console.log('Request : GET')
   res.render('register', { layout: false })
 }
 
 const createRegister = async (req, res) => {
   try {
+    console.log('Request : POST')
     const { name, username, password } = req.body;
     // Tìm tài khoản đã tồn tại
     const existingAccount = await Account.findOne({ username });
@@ -39,14 +41,13 @@ const dangnhap = async (req, res) => {
     const password = req.body.password;
     // Tìm tài khoản đã tồn tại
     const existingAccount = await Account.findOne({ username: username, password: password });
-
     if (existingAccount) {
       req.session.user = {
         id: existingAccount._id,
         name: existingAccount.name,
         role: existingAccount.role,
       };
-      console.log(req.session.user.role)
+      console.log(`Người dùng: ${existingAccount.name} đã Đăng nhập`)
       res.redirect(`/admin?username=${existingAccount.name}`);
     } else {
       res.render('login', { layout: false, mess: true })

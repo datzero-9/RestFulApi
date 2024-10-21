@@ -7,7 +7,8 @@ const getHomepage = async (req, res) => {
         const user = req.session.user;
         console.log('Request : GET')
         const Products = await Product.find().lean();
-        res.json(Products)
+        // res.json(Products)
+        res.render('home', { Products: Products });
 
     } catch (error) {
         console.error('Error fetching courses:', error);

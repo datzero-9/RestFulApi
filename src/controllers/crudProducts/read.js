@@ -5,9 +5,9 @@ const getHomepage = async (req, res) => {
     try {
 
         const user = req.session.user;
-        console.log('Request : GET')
         const Products = await Product.find().lean();
-        res.json(Products)
+        // res.json(Products)
+        res.render('home', {  Products , user });
 
     } catch (error) {
         console.error('Error fetching courses:', error);
@@ -19,6 +19,7 @@ const getItem = async (req, res) => {
 
         const productId = req.body.id; // Đảm bảo bạn gửi ID qua query parameter productId
         console.log('User: GET product')
+        console.log('--------------------');
         const product = await Product.findById(productId);
 
         if (!product) {
@@ -32,4 +33,4 @@ const getItem = async (req, res) => {
     }
 };
 
-module.exports ={getItem, getHomepage};
+module.exports = { getItem, getHomepage };

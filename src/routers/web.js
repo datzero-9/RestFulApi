@@ -11,6 +11,7 @@ const getCategory = require('../controllers/category/read');
 const createCategory = require('../controllers/category/create');
 const deleteCategory = require('../controllers/category/delete');
 const {updateCategory, getItemCategory} = require('../controllers/category/update');
+const NotFound = require('../controllers/URLNotFound/NotFound');
 
 
 // crud category
@@ -23,12 +24,23 @@ router.put('/updateCategory/:id',updateCategory)
 //crud product
 router.get('/', getHomepage)
 
-router.post('/detail', getItem)
-router.post('/search', getItemSearch)
+
+
 router.get('/add', addProduct)
 router.post('/createProduct', Create)
+
+// router.put('/updateProduct/:id', updateCourse)
+
+// router.get('/getProduct/:id', edit)
+// router.delete('/deleteProduct/:id', deleteProduct)
+
+
+router.post('/course/create', Create)
 router.put('/course/update/:id', updateCourse)
 router.get('/course/edit/:id', edit)
-router.delete('/deleteProduct/:id', deleteProduct)
-
+router.get('/course/delete/:id', deleteProduct)
+//user
+router.post('/detail', getItem)
+router.post('/search', getItemSearch)
+router.get('/:id', NotFound)
 module.exports = router;

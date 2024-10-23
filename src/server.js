@@ -48,7 +48,7 @@ const checkAdmin = (req, res, next) => {
     }
 }
 
-app.use('/admin', router)
+app.use('/admin',checkLogin, router)
 
 
 app.listen(port, () => {

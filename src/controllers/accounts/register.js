@@ -4,11 +4,11 @@ const session = require('express-session');
 const register = (req, res) => {
   let userIp = req.ip || req.connection.remoteAddress;
 
-    // Kiểm tra nếu server chạy đằng sau proxy
-    if (req.headers['x-forwarded-for']) {
-        userIp = req.headers['x-forwarded-for'].split(',')[0];
-    }
-  console.log('IP Người truy cập: '+ userIp );
+  // Kiểm tra nếu server chạy đằng sau proxy
+  if (req.headers['x-forwarded-for']) {
+    userIp = req.headers['x-forwarded-for'].split(',')[0];
+  }
+  console.log('IP Người truy cập: ' + userIp);
   console.log('Request : GET : Đăng kÝ')
   console.log('--------------------');
   res.render('register', { layout: false })
@@ -20,21 +20,19 @@ const createRegister = async (req, res) => {
     console.log('--------------------');
     const { name, username, password } = req.body;
     // Tìm tài khoản đã tồn tại
-    console.log('Request: POST : Tạo tài khoản')
-    console.log('--------------------');
     const existingAccount = await Account.findOne({ username });
     if (existingAccount) {
-      return res.status(409).json({ message: 'Tài khoản đã tồn tại' });
+      return res.json({ message: 'Tài khoản đã tồn tại', status : false });
+    } else {
+      const newAccount = new Account({
+        name,
+        username,
+        password,
+      });
+      await newAccount.save();
+      res.status(200).json({ message: 'tạo tài khoản thành công', status : true  })
+      // res.render('login', { layout: false, title: true })
     }
-    // Tạo tài khoản mới
-    const newAccount = new Account({
-      name,
-      username,
-      password,
-    });
-    await newAccount.save();
-
-    res.render('login', { layout: false, title: true })
   } catch (error) {
     console.error('Error creating account:', error);
     res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
@@ -57,10 +55,10 @@ const dangnhap = async (req, res) => {
     const password = req.body.password;
     // Tìm tài khoản đã tồn tại
     const existingAccount = await Account.findOne({ username: username, password: password });
-    if(existingAccount){
+    if (existingAccount) {
       res.status(200).json(existingAccount)
-    }else{
-      res.json('Tài khoản không tồn tại')
+    } else {
+      res.json(false)
     }
     // if (existingAccount) {
     //   req.session.user = {
@@ -79,7 +77,7 @@ const dangnhap = async (req, res) => {
     res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
   }
 }
-const logout =  (req, res) => {
+const logout = (req, res) => {
   console.log('Request : POST : Đăng xuất')
   console.log('--------------------');
   req.session.destroy((err) => {
@@ -92,4 +90,4 @@ const logout =  (req, res) => {
   });
 
 }
-module.exports = { register, login, createRegister, dangnhap,logout };
+module.exports = { register, login, createRegister, dangnhap, logout };

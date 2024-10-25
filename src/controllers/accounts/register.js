@@ -2,6 +2,13 @@
 const Account = require('../../models/accounts')
 const session = require('express-session');
 const register = (req, res) => {
+  let userIp = req.ip || req.connection.remoteAddress;
+
+    // Kiểm tra nếu server chạy đằng sau proxy
+    if (req.headers['x-forwarded-for']) {
+        userIp = req.headers['x-forwarded-for'].split(',')[0];
+    }
+  console.log('IP Người truy cập: '+ userIp );
   console.log('Request : GET : Đăng kÝ')
   console.log('--------------------');
   res.render('register', { layout: false })

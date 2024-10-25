@@ -13,10 +13,10 @@ const Create = async (req, res) => {
         console.log(req.body)
         const newProduct = new Product(req.body);
         await newProduct.save(); // Lưu sản phẩm mới vào cơ sở dữ liệu
-        res.redirect('/admin')
+        // res.redirect('/admin')
         console.log('1 sản phẩm mới đã được thêm');
         console.log('--------------------');
-        // res.status(200).json('Sản phẩm đã được thêm vào danh sách');
+        res.status(200).json('Sản phẩm đã được thêm vào danh sách');
     } catch (error) {
         console.error('Error creating course:', error);
         res.status(500).send('Lỗi không thể thêm dữ liệu');

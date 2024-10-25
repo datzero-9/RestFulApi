@@ -3,11 +3,11 @@ const Product = require('../../models/crud')
 
 const getHomepage = async (req, res) => {
     try {
-
+  
         const user = req.session.user;
-        const Products = await Product.find().lean();
-        res.render('home', { Products, user });
-        //res.status(200).json(Products);
+        const Products = await Product.find().sort({ createdAt: -1 }).lean();
+        // res.render('home', { Products, user });
+        res.status(200).json(Products);
     } catch (error) {
         console.error('Error fetching courses:', error);
         res.status(500).send('Lỗi');

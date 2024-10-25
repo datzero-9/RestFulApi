@@ -7,10 +7,10 @@ const edit = async (req, res) => {
         const user = req.session.user;
         const idProduct = req.params.id;
         const Products = await Product.findById(idProduct).lean();
-        res.render('update', { Products });
+        // res.render('update', { Products });
         console.log('Request : GET : Lấy thông tin sản phẩm')
         console.log('--------------------');
-        // res.status(200).json(Products)
+        res.status(200).json(Products)
     } catch (error) {
         console.error('Error fetching courses:', error);
         res.status(500).send('Internal Server Error');
@@ -27,10 +27,10 @@ const updateCourse = async (req, res) => {
         Products.category = req.body.category;
         Products.image = req.body.image;
         await Products.save()
-        // res.status(200).json('Thay đổi thành công');
+        res.status(200).json('Thay đổi thành công');
         console.log('Sản phẩm Đã được thay đổi')
         console.log('--------------------');
-        res.redirect('/admin');
+        // res.redirect('/admin');
     } catch (error) {
         console.error('Error fetching courses:', error);
         res.status(500).send('Internal Server Error');

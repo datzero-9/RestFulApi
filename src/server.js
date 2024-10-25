@@ -27,11 +27,11 @@ connect()
 ViewEngine(app)
 app.use(cors())
 
-app.get('/', register)
-app.post('/', createRegister)
-app.get('/login', login)
-app.post('/login', dangnhap)
-app.get('/logout', logout);
+// app.get('/', register)
+// app.post('/', createRegister)
+// app.get('/login', login)
+// app.post('/login', dangnhap)
+// app.get('/logout', logout);
 
 const checkLogin = (req, res, next) => {
     if (req.session.user) {

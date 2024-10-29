@@ -1,7 +1,8 @@
 const Cart = require('../../models/cart')
 const getCart = async (req, res) => {
     try {
-        const Carts = await Cart.find().sort({ createdAt: -1 });
+
+        const Carts = await Cart.find(req.body).sort({ createdAt: -1 });
         res.status(200).json(Carts);
     } catch (error) {
         console.error('Error fetching courses:', error);
@@ -12,7 +13,7 @@ const createCart = async (req, res) => {
     try {
         const idUser = req.body.idUser;
         const idProduct = req.body.idProduct
-        const existingCart = await Cart.findOne({idUser,idProduct});
+        const existingCart = await Cart.findOne({ idUser, idProduct });
         if (existingCart) {
             return res.json({ message: 'Sản phẩm này đã có trong giỏ hàng', status: false });
         } else {
@@ -30,7 +31,7 @@ const createCart = async (req, res) => {
 }
 const deleteCart = async (req, res) => {
     try {
-        console.log('Người dùng đã xóa sản phẩm khỏi cart')
+
 
         const idCart = req.params.id;
         console.log(idCart)
@@ -39,12 +40,29 @@ const deleteCart = async (req, res) => {
         if (!deletedCart) {
             return res.status(404).send('Không tìm thấy khóa học để xóa.');
         }
-        console.log('Người quản trị đã xóa 1 sản phẩm')
+        console.log('Người dùng đã xóa sản phẩm khỏi cart')
         console.log('--------------------');
         res.status(200).json('Xóa thành công');
         // res.redirect('/admin');
     } catch (error) {
         console.error('Lỗi khi xóa khóa học:', error);
+        res.status(500).send('Lỗi máy chủ nội bộ');
+    }
+};
+
+const deleteAllCart = async (req, res) => {
+    try {
+        const deletedCart = await Cart.deleteMany({}); // Xóa toàn bộ sản phẩm trong Cart
+
+        if (deletedCart.deletedCount === 0) {
+            return res.status(404).send('Không có sản phẩm nào để xóa.');
+        }
+
+        console.log('Người dùng đã xóa tất cả sản phẩm khỏi cart');
+        console.log('--------------------');
+        res.status(200).json('Xóa tất cả sản phẩm thành công');
+    } catch (error) {
+        console.error('Lỗi khi xóa sản phẩm:', error);
         res.status(500).send('Lỗi máy chủ nội bộ');
     }
 };

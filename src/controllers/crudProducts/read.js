@@ -3,7 +3,7 @@ const Product = require('../../models/crud')
 
 const getHomepage = async (req, res) => {
     try {
-  
+
         const user = req.session.user;
         const Products = await Product.find().sort({ createdAt: -1 }).lean();
         // res.render('home', { Products, user });
@@ -24,12 +24,21 @@ const getItem = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: 'Không tìm thấy sản phẩm' });
         }
-
         res.json(product);
     } catch (error) {
         console.error('Lỗi khi truy vấn sản phẩm:', error);
         res.status(500).json({ message: 'Đã xảy ra lỗi' });
     }
 };
+const listProductCategory = async (req, res) => {
+    try {
 
-module.exports = { getItem, getHomepage };
+        const Products = await Product.find({category:req.params.name}).sort({ createdAt: -1 });
+        res.status(200).json(Products);
+    } catch (error) {
+        console.error('Lỗi khi truy vấn sản phẩm:', error);
+        res.status(500).json({ message: 'Đã xảy ra lỗi' });
+    }
+}
+
+module.exports = { getItem, getHomepage, listProductCategory };

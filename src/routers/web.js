@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 
-const { getItem, getHomepage } = require('../controllers/crudProducts/read')
+const { getItem, getHomepage, listProductCategory } = require('../controllers/crudProducts/read')
 const { Create, addProduct } = require('../controllers/crudProducts/create')
 const { updateCourse, edit } = require('../controllers/crudProducts/edit')
 const { createRegister, dangnhap } = require('../controllers/accounts/register')
@@ -35,8 +35,12 @@ router.put('/updateProduct/:id', updateCourse)
 router.delete('/deleteProduct/:id', deleteProduct)
 router.post('/detail', getItem)
 router.post('/search', getItemSearch)
+router.get('/', getHomepage)
+router.get('/listProductCategory/:name', listProductCategory)
+
+
 //Cart
-router.get('/getCart', getCart)
+router.post('/getCart', getCart)
 router.post('/addCart', createCart)
 router.delete('/deleteCart/:id', deleteCart)
 

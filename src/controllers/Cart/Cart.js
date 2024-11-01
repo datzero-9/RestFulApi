@@ -52,18 +52,20 @@ const deleteCart = async (req, res) => {
 
 const deleteAllCart = async (req, res) => {
     try {
-        const deletedCart = await Cart.deleteMany({}); // Xóa toàn bộ sản phẩm trong Cart
+        const idUser = req.params.id; // Lấy idUser từ URL hoặc từ req.body nếu cần
+        console.log(idUser)
+        const deleteCart = await Cart.deleteMany({ idUser });
 
-        if (deletedCart.deletedCount === 0) {
-            return res.status(404).send('Không có sản phẩm nào để xóa.');
+        if (deleteCart.deletedCount === 0) {
+            return res.status(404).send('Không có danh mục nào để xóa cho người dùng này.');
         }
 
-        console.log('Người dùng đã xóa tất cả sản phẩm khỏi cart');
+        console.log(`Người dùng ${idUser} đã xóa tất cả danh mục của mình.`);
         console.log('--------------------');
-        res.status(200).json('Xóa tất cả sản phẩm thành công');
+        res.status(200).json('Xóa tất cả danh mục thành công');
     } catch (error) {
-        console.error('Lỗi khi xóa sản phẩm:', error);
+        console.error('Lỗi khi xóa danh mục:', error);
         res.status(500).send('Lỗi máy chủ nội bộ');
     }
 };
-module.exports = { getCart, createCart, deleteCart };
+module.exports = { getCart, createCart, deleteCart, deleteAllCart };

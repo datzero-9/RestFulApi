@@ -7,20 +7,22 @@ const Checkout = async (req, res) => {
         const address = req.body.address;
         const phone = req.body.phone;
         const note = req.body.note;
+        const state = req.body.state;
+        const total = req.body.total;
         const listCart = req.body.listCart;
-        console.log(listCart)
+
         // Tạo một đơn hàng mới
         const newOrder = await Order.create({
             idUser,
             address,
             phone,
-            note
+            note,
+            state,
+            total
         });
 
         // Lấy ID của đơn hàng vừa tạo
         const orderId = newOrder._id;
-        console.log(orderId)
-
         // Tạo các bản ghi chi tiết đơn hàng cho từng sản phẩm
         const orderDetails = listCart.map(listCart => ({
             idOrder: orderId,
@@ -39,4 +41,15 @@ const Checkout = async (req, res) => {
         res.status(500).send('Lỗi không thể thêm dữ liệu');
     }
 }
-module.exports = Checkout;
+const updateState = async (req, res) => {
+    try {
+        const itemOrder = await Order.findById(req.body.idOrder)
+        itemOrder.state = req.body.state;
+        await itemOrder.save()
+        res.status(200).json('Xác nhận thành công')
+    } catch (error) {
+        console.error('Error fetching courses:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+module.exports = {Checkout,updateState};

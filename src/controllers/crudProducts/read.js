@@ -35,6 +35,7 @@ const listProductCategory = async (req, res) => {
 
         const Products = await Product.find({category:req.params.name}).sort({ createdAt: -1 });
         res.status(200).json(Products);
+        console.log(req.params.name)
     } catch (error) {
         console.error('Lỗi khi truy vấn sản phẩm:', error);
         res.status(500).json({ message: 'Đã xảy ra lỗi' });

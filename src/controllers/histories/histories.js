@@ -12,4 +12,15 @@ const getHistories = async (req, res) => {
         res.status(500).send('Lỗi');
     }
 };
-module.exports = getHistories;
+
+const getAllHistories = async (req, res) => {
+    try {
+   
+        const orders = await Order.find().sort({ createdAt: -1 });
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin đơn hàng:', error);
+        res.status(500).send('Lỗi');
+    }
+};
+module.exports = {getHistories,getAllHistories};

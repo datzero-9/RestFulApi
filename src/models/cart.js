@@ -11,7 +11,6 @@ const Cart = new Schema({
     price: { type: Number },
     salePrice: { type: Number },
     createdAt: { type: Date, default: Date.now },
-    updateAt: { type: Date, default: Date.now },
 
 });
 

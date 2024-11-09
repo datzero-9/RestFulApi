@@ -12,9 +12,10 @@ const createCategory = require('../controllers/category/create');
 const deleteCategory = require('../controllers/category/delete');
 const { updateCategory, getItemCategory } = require('../controllers/category/update');
 const NotFound = require('../controllers/URLNotFound/NotFound');
-const Checkout = require('../controllers/checkout/checkout');
+const {Checkout,updateState} = require('../controllers/checkout/checkout');
 const { getCart, createCart, deleteCart,deleteAllCart } = require('../controllers/Cart/Cart');
-const getHistories = require('../controllers/histories/histories');
+const {getHistories,getAllHistories} = require('../controllers/histories/histories');
+const {createComment,getComment} = require('../controllers/Comment/Comment');
 
 
 
@@ -28,6 +29,9 @@ router.delete('/deleteCategory/:id', deleteCategory)
 
 router.post('/getItemCategory', getItemCategory)
 router.put('/updateCategory/:id', updateCategory)
+//commnet
+router.post('/comment', createComment)
+router.post('/getComment', getComment)
 
 //crud product
 router.get('/', getHomepage)
@@ -48,11 +52,13 @@ router.post('/addCart', createCart)
 router.delete('/deleteCart/:id', deleteCart)
 router.delete('/deleteAllCart/:id', deleteAllCart)
 
-//checkout
+//checkout (state order)
 router.post('/checkout', Checkout)
+router.post('/updateState', updateState)
 
-// order
+// order(history)
 router.post('/getHistories',getHistories)
+router.get('/getAllHistories',getAllHistories)
 // router.post('/course/create', Create)
 // router.put('/course/update/:id', updateCourse)
 // router.get('/course/edit/:id', edit)

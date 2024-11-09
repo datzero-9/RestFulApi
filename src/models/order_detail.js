@@ -9,8 +9,6 @@ const OrderDetail = new Schema({
     price: { type: Number },
     image: { type: String },
     createdAt: { type: Date, default: Date.now },
-    updateAt: { type: Date, default: Date.now },
-
   });
   
 module.exports = mongoose.model('OrderDetail',OrderDetail);

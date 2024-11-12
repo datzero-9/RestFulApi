@@ -8,6 +8,7 @@ const Order = new Schema({
     total: { type: Number },
     phone: { type: Number },
     note: { type: String },
+    payment: { type: String },
     state: { type: Boolean },
     createdAt: { type: Date, default: Date.now },
   });

@@ -9,6 +9,9 @@ const hostname = process.env.HOST_NAME;
 const mongodb = process.env.MONGODB_URL;
 const mongoose = require('mongoose');
 const Account = require('./models/accounts')
+const axios = require('axios').default; // npm install axios
+const CryptoJS = require('crypto-js'); // npm install crypto-js
+const moment = require('moment'); // npm install moment
 var cors = require('cors')
 const { register, login, createRegister, dangnhap, logout } = require('./controllers/accounts/register')
 
@@ -27,12 +30,6 @@ connect()
 ViewEngine(app)
 app.use(cors())
 
-// app.get('/', register)
-// app.post('/', createRegister)
-// app.get('/login', login)
-// app.post('/login', dangnhap)
-// app.get('/logout', logout);
-
 const checkLogin = (req, res, next) => {
     if (req.session.user) {
         next();
@@ -47,6 +44,11 @@ const checkAdmin = (req, res, next) => {
         res.send('Bạn không đủ thẩm quyền');
     }
 }
+
+
+
+
+
 
 app.use('/api', router)
 

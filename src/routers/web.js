@@ -12,7 +12,7 @@ const createCategory = require('../controllers/category/create');
 const deleteCategory = require('../controllers/category/delete');
 const { updateCategory, getItemCategory } = require('../controllers/category/update');
 const NotFound = require('../controllers/URLNotFound/NotFound');
-const {Checkout,updateState} = require('../controllers/checkout/checkout');
+const {Checkout,updateState,Payment,Callback} = require('../controllers/checkout/checkout');
 const { getCart, createCart, deleteCart,deleteAllCart } = require('../controllers/Cart/Cart');
 const {getHistories,getAllHistories} = require('../controllers/histories/histories');
 const {createComment,getComment} = require('../controllers/Comment/Comment');
@@ -55,6 +55,8 @@ router.delete('/deleteAllCart/:id', deleteAllCart)
 //checkout (state order)
 router.post('/checkout', Checkout)
 router.post('/updateState', updateState)
+router.post('/payment', Payment)
+router.post('/callback', Callback)
 
 // order(history)
 router.post('/getHistories',getHistories)

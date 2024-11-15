@@ -45,11 +45,6 @@ const checkAdmin = (req, res, next) => {
     }
 }
 
-
-
-
-
-
 app.use('/api', router)
 
 

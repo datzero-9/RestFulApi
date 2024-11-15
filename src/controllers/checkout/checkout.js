@@ -6,7 +6,6 @@ const CryptoJS = require('crypto-js'); // npm install crypto-js
 const moment = require('moment'); // npm install moment
 const Checkout = async (req, res) => {
     try {
-        console.log(req.body)
         const idUser = req.body.idUser;
         const address = req.body.address;
         const phone = req.body.phone;
@@ -33,6 +32,7 @@ const Checkout = async (req, res) => {
         const orderDetails = listCart.map(listCart => ({
             idOrder: orderId,
             idProduct: listCart.idProduct,
+            name: listCart.name,
             quantity: listCart.quantity,
             price: listCart.price,
             image: listCart.image // Giả sử `product` chứa các thông tin như productId, quantity, price, v.v.
@@ -70,6 +70,7 @@ const config = {
 // thanh toán online
 const Payment = async (req, res) => {
     const embed_data = {
+        // redirecturl: 'http://localhost:3000/user/cart'
         redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
     }
     const items = req.body.listCart;
@@ -84,6 +85,7 @@ const Payment = async (req, res) => {
         amount: req.body.total,
         description: `LSHOP-TECH - Thanh toán cho đơn hàng #${transID}`,
         bank_code: "",
+        // callback_url: 'https://restfulapi-aci6.onrender.com/api/callback'
         callback_url: 'https://restfulapi-aci6.onrender.com/api/callback'
     };
     // appid|app_trans_id|appuser|amount|apptime|embeddata|item
@@ -118,6 +120,7 @@ const Callback = async (req, res) => {
             // merchant cập nhật trạng thái cho đơn hàng
             let dataJson = JSON.parse(dataStr, config.key2);
             console.log("update order's status = success where app_trans_id =", dataJson["app_trans_id"]);
+            console.log('Thanh toán thành công đơn hàng')
             result.return_code = 1;
             result.return_message = "success";
         }

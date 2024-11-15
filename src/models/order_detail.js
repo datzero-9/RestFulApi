@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const OrderDetail = new Schema({
     idOrder: { type: String },
     idProduct: { type: String },
+    name: { type: String },
     quantity: { type: Number },
     price: { type: Number },
     image: { type: String },

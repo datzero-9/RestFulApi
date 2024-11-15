@@ -13,7 +13,7 @@ const axios = require('axios').default; // npm install axios
 const CryptoJS = require('crypto-js'); // npm install crypto-js
 const moment = require('moment'); // npm install moment
 var cors = require('cors')
-const { register, login, createRegister, dangnhap, logout } = require('./controllers/accounts/register')
+// const { register, login, createRegister, dangnhap, logout } = require('./controllers/accounts/register')
 
 //connect database mongose
 async function connect() {

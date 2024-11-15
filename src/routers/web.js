@@ -4,7 +4,7 @@ const router = express.Router();
 const { getItem, getHomepage, listProductCategory } = require('../controllers/crudProducts/read')
 const { Create, addProduct } = require('../controllers/crudProducts/create')
 const { updateCourse, edit } = require('../controllers/crudProducts/edit')
-const { createRegister, dangnhap } = require('../controllers/accounts/register')
+const { createRegister, dangnhap, infoUser,changeInfo } = require('../controllers/accounts/register')
 const deleteProduct = require('../controllers/crudProducts/delete')
 const getItemSearch = require('../controllers/Search/search');
 const getCategory = require('../controllers/category/read');
@@ -16,12 +16,15 @@ const {Checkout,updateState,Payment,Callback} = require('../controllers/checkout
 const { getCart, createCart, deleteCart,deleteAllCart } = require('../controllers/Cart/Cart');
 const {getHistories,getAllHistories} = require('../controllers/histories/histories');
 const {createComment,getComment} = require('../controllers/Comment/Comment');
+const {getOrderDetail} = require('../controllers/orderDetail/orderDetail');
 
 
 
-
+//tài khoản
 router.post('/register', createRegister)
 router.post('/login', dangnhap)
+router.post('/info', infoUser)
+router.post('/changeInfo', changeInfo)
 // crud category
 router.get('/category', getCategory)
 router.post('/createCategory', createCategory)
@@ -61,6 +64,7 @@ router.post('/callback', Callback)
 // order(history)
 router.post('/getHistories',getHistories)
 router.get('/getAllHistories',getAllHistories)
+router.post('/orderdetail',getOrderDetail)
 // router.post('/course/create', Create)
 // router.put('/course/update/:id', updateCourse)
 // router.get('/course/edit/:id', edit)

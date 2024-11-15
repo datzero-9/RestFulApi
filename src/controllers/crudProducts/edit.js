@@ -28,7 +28,6 @@ const updateCourse = async (req, res) => {
         Products.image = req.body.image;
         await Products.save()
         res.status(200).json('Thay đổi thành công');
-        console.log('Sản phẩm Đã được thay đổi')
         console.log('--------------------');
         // res.redirect('/admin');
     } catch (error) {

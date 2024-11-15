@@ -22,7 +22,7 @@ const createRegister = async (req, res) => {
     // Tìm tài khoản đã tồn tại
     const existingAccount = await Account.findOne({ username });
     if (existingAccount) {
-      return res.json({ message: 'Tài khoản đã tồn tại', status : false });
+      return res.json({ message: 'Tài khoản đã tồn tại', status: false });
     } else {
       const newAccount = new Account({
         name,
@@ -30,7 +30,7 @@ const createRegister = async (req, res) => {
         password,
       });
       await newAccount.save();
-      res.status(200).json({ message: 'tạo tài khoản thành công', status : true  })
+      res.status(200).json({ message: 'tạo tài khoản thành công', status: true })
       // res.render('login', { layout: false, title: true })
     }
   } catch (error) {
@@ -60,18 +60,7 @@ const dangnhap = async (req, res) => {
     } else {
       res.json(false)
     }
-    // if (existingAccount) {
-    //   req.session.user = {
-    //     id: existingAccount._id,
-    //     name: existingAccount.name,
-    //     role: existingAccount.role,
-    //   };
-    //   console.log(`Người dùng: ${existingAccount.name} đã Đăng nhập`)
-    //   console.log('--------------------');
-    //   res.redirect(`/admin?username=${existingAccount.name}`);
-    // } else {
-    //   res.render('login', { layout: false, mess: true })
-    // }
+
   } catch (error) {
     console.error('Error creating account:', error);
     res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
@@ -90,4 +79,33 @@ const logout = (req, res) => {
   });
 
 }
-module.exports = { register, login, createRegister, dangnhap, logout };
+
+const infoUser = async (req, res) => {
+  try {
+    console.log('POST : /api/infoUser')
+    console.log('--------------------');
+    // Tìm tài khoản đã tồn tại
+    const user = await Account.findOne({ _id: req.body.id });
+    res.status(200).json(user)
+  } catch (error) {
+    console.error('Error creating account:', error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
+  }
+}
+const changeInfo = async (req, res) => {
+  try {
+console.log(req.body)
+    console.log('POST : /api/changeInfo')
+    console.log('--------------------');
+    const user = await Account.findOne({ _id: req.body.id });
+    user.name = req.body.name;
+    user.password = req.body.password;
+    await user.save()
+    res.status(200).json('Thay đổi thành công Tài khoản')
+    // res.status(200).json('ok')
+  } catch (error) {
+    console.error('Error creating account:', error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
+  }
+}
+module.exports = { register, login, createRegister, dangnhap, logout, infoUser, changeInfo };

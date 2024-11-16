@@ -128,7 +128,7 @@ const Callback = async (req, res) => {
                 address: parsedData[0].address,
                 phone: parsedData[0].phone,
                 note: parsedData[0].note,
-                state: parsedData[0].state,
+                state: true,
                 total: parsedData[0].total,
                 payment: parsedData[0].payment,
                 listCart: parsedData[0].listCart,

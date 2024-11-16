@@ -69,11 +69,14 @@ const config = {
 };
 // thanh toán online
 const Payment = async (req, res) => {
+    console.log('POST : /api/payment')
+    console.log('--------------------')
     const embed_data = {
-        // redirecturl: 'http://localhost:3000/user/cart'
+        // redirecturl: 'http://localhost:3000/user/histories'
         redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
     }
-    const items = req.body.listCart;
+    // console.log(req.body)?
+    const items = [req.body];
     const transID = Math.floor(Math.random() * 1000000);
     const order = {
         app_id: config.app_id,
@@ -85,13 +88,13 @@ const Payment = async (req, res) => {
         amount: req.body.total,
         description: `LSHOP-TECH - Thanh toán cho đơn hàng #${transID}`,
         bank_code: "",
-        // callback_url: 'https://restfulapi-aci6.onrender.com/api/callback'
         callback_url: 'https://restfulapi-aci6.onrender.com/api/callback'
+        // callback_url: 'https://1057-116-98-165-182.ngrok-free.app/api/callback'
     };
     // appid|app_trans_id|appuser|amount|apptime|embeddata|item
     const data = config.app_id + "|" + order.app_trans_id + "|" + order.app_user + "|" + order.amount + "|" + order.app_time + "|" + order.embed_data + "|" + order.item;
     order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
-    console.log(order)
+    // console.log(order)
     try {
         const result = await axios.post(config.endpoint, null, { params: order })
         return res.status(200).json(result.data)
@@ -119,8 +122,38 @@ const Callback = async (req, res) => {
             // thanh toán thành công
             // merchant cập nhật trạng thái cho đơn hàng
             let dataJson = JSON.parse(dataStr, config.key2);
-            console.log("update order's status = success where app_trans_id =", dataJson["app_trans_id"]);
-            console.log('Thanh toán thành công đơn hàng')
+            const parsedData = JSON.parse(dataJson.item);
+            const checkout = {
+                idUser: parsedData[0].idUser,
+                address: parsedData[0].address,
+                phone: parsedData[0].phone,
+                note: parsedData[0].note,
+                state: parsedData[0].state,
+                total: parsedData[0].total,
+                payment: parsedData[0].payment,
+                listCart: parsedData[0].listCart,
+            }
+
+            try {
+                axios.post('https://restfulapi-aci6.onrender.com/api/checkout', checkout)
+                // axios.post('https://1057-116-98-165-182.ngrok-free.app/api/checkout', checkout)
+                    .then((res) => {
+                        try {
+                            axios.delete(`https://restfulapi-aci6.onrender.com/api/deleteAllCart/${checkout.idUser}`)
+                            // axios.delete(`https://1057-116-98-165-182.ngrok-free.app/api/deleteAllCart/${checkout.idUser}`)
+                                .then((res) => {
+                                    console.log(res.data)
+                                })
+                        } catch (error) {
+                            console.log('có lỗi xảy ra, vui lòng kiểm tra lại')
+                        }
+                    })
+            } catch (error) {
+                console.log('Có lỗi xảy ra: ' + error)
+            }
+            //  console.log("update order's status = success where app_trans_id =", dataJson["app_trans_id"]);
+            console.log('POST : /api/callBack')
+            console.log('--------------------')
             result.return_code = 1;
             result.return_message = "success";
         }

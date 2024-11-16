@@ -53,14 +53,11 @@ const deleteCart = async (req, res) => {
 const deleteAllCart = async (req, res) => {
     try {
         const idUser = req.params.id; // Lấy idUser từ URL hoặc từ req.body nếu cần
-        console.log(idUser)
         const deleteCart = await Cart.deleteMany({ idUser });
-
         if (deleteCart.deletedCount === 0) {
             return res.status(404).send('Không có danh mục nào để xóa cho người dùng này.');
         }
-
-        console.log(`Người dùng ${idUser} đã xóa tất cả danh mục của mình.`);
+        console.log('DELETE: /api/deleteAllCart');
         console.log('--------------------');
         res.status(200).json('Xóa tất cả danh mục thành công');
     } catch (error) {

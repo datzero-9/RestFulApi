@@ -4,7 +4,7 @@ const router = express.Router();
 const { getItem, getHomepage, listProductCategory } = require('../controllers/crudProducts/read')
 const { Create, addProduct } = require('../controllers/crudProducts/create')
 const { updateCourse, edit } = require('../controllers/crudProducts/edit')
-const { createRegister, dangnhap, infoUser,changeInfo } = require('../controllers/accounts/register')
+const { createRegister, dangnhap, infoUser,changeInfo,getListUser } = require('../controllers/accounts/register')
 const deleteProduct = require('../controllers/crudProducts/delete')
 const getItemSearch = require('../controllers/Search/search');
 const getCategory = require('../controllers/category/read');
@@ -25,6 +25,7 @@ router.post('/register', createRegister)
 router.post('/login', dangnhap)
 router.post('/info', infoUser)
 router.post('/changeInfo', changeInfo)
+router.get('/listUser', getListUser)
 // crud category
 router.get('/category', getCategory)
 router.post('/createCategory', createCategory)

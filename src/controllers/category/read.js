@@ -1,5 +1,7 @@
 const Category = require('../../models/category')
 const getCategory = async (req, res) => {
+    // console.log('GET : /api/getCategory');
+    // console.log('--------------------');
     try {
         const Categorys = await Category.find();
         res.status(200).json(Categorys)

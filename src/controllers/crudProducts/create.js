@@ -1,7 +1,5 @@
 const Product = require('../../models/crud')
 
-
-
 const addProduct = async (req, res) => {
     const user = req.session.user;
 
@@ -9,13 +7,14 @@ const addProduct = async (req, res) => {
 }
 
 const Create = async (req, res) => {
+           
+    console.log('POST : /api/createProduct');
+    console.log('--------------------');
     try {
         console.log(req.body)
+       
         const newProduct = new Product(req.body);
-        await newProduct.save(); // Lưu sản phẩm mới vào cơ sở dữ liệu
-        // res.redirect('/admin')
-        console.log('1 sản phẩm mới đã được thêm');
-        console.log('--------------------');
+        await newProduct.save(); 
         res.status(200).json('Sản phẩm đã được thêm vào danh sách');
     } catch (error) {
         console.error('Error creating course:', error);

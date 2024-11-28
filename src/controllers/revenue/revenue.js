@@ -1,5 +1,7 @@
 const Order = require('../../models/order');
 const Revenue = async (req, res) => {
+    console.log('GET : /api/revenue');
+    console.log('--------------------');
     const orders = await Order.find().sort({ createdAt: -1 });
 
     // Tạo một map để nhóm dữ liệu theo tháng

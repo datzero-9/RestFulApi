@@ -8,8 +8,7 @@ const Cart = new Schema({
     name: { type: String },
     image: { type: String },
     quantity: { type: Number },
-    price: { type: Number },
-    salePrice: { type: Number },
+    realPrice: { type: Number },
     createdAt: { type: Date, default: Date.now },
 
 });

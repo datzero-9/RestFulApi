@@ -4,6 +4,9 @@ const { getCart, createCart, deleteCart, deleteAllCart } = require('../Cart/Cart
 const axios = require('axios').default; // npm install axios
 const CryptoJS = require('crypto-js'); // npm install crypto-js
 const moment = require('moment'); // npm install moment
+
+const Product = require('../../models/crud')
+
 const Checkout = async (req, res) => {
     try {
         const idUser = req.body.idUser;
@@ -15,7 +18,6 @@ const Checkout = async (req, res) => {
         const payment = req.body.payment;
         const listCart = req.body.listCart;
 
-        // Tạo một đơn hàng mới
         const newOrder = await Order.create({
             idUser,
             address,
@@ -25,18 +27,41 @@ const Checkout = async (req, res) => {
             total,
             payment
         });
-
         // Lấy ID của đơn hàng vừa tạo
         const orderId = newOrder._id;
-        // Tạo các bản ghi chi tiết đơn hàng cho từng sản phẩm
-        const orderDetails = listCart.map(listCart => ({
-            idOrder: orderId,
-            idProduct: listCart.idProduct,
-            name: listCart.name,
-            quantity: listCart.quantity,
-            price: listCart.price,
-            image: listCart.image // Giả sử `product` chứa các thông tin như productId, quantity, price, v.v.
-        }));
+
+        // Duyệt qua từng sản phẩm trong giỏ hàng
+        const orderDetails = [];
+        for (const cartItem of listCart) {
+            const { idProduct, quantity } = cartItem;
+
+            // Lấy thông tin sản phẩm từ database
+            const product = await Product.findById(idProduct);
+
+            if (!product) {
+                return res.status(404).json({ message: `Sản phẩm với ID ${idProduct} không tồn tại` });
+            }
+
+            // Kiểm tra tồn kho
+            if (product.warehouse < quantity) {
+                return res.status(400).json({
+                    message: `Sản phẩm "${product.name}" không đủ hàng. Hiện tại còn ${product.stock} sản phẩm.`,
+                });
+            }
+
+            product.warehouse -= quantity;
+            await product.save();
+
+            orderDetails.push({
+                idOrder: orderId,
+                idProduct,
+                name: product.name,
+                quantity,
+                realPrice: product.realPrice,
+                image: product.image,
+            });
+        }
+        
 
         // Lưu tất cả chi tiết đơn hàng cùng lúc
         await OrderDetail.insertMany(orderDetails);
@@ -139,11 +164,11 @@ const Callback = async (req, res) => {
 
             try {
                 axios.post('https://restfulapi-aci6.onrender.com/api/checkout', checkout)
-                // axios.post('https://1057-116-98-165-182.ngrok-free.app/api/checkout', checkout)
+                    // axios.post('https://1057-116-98-165-182.ngrok-free.app/api/checkout', checkout)
                     .then((res) => {
                         try {
                             axios.delete(`https://restfulapi-aci6.onrender.com/api/deleteAllCart/${checkout.idUser}`)
-                            // axios.delete(`https://1057-116-98-165-182.ngrok-free.app/api/deleteAllCart/${checkout.idUser}`)
+                                // axios.delete(`https://1057-116-98-165-182.ngrok-free.app/api/deleteAllCart/${checkout.idUser}`)
                                 .then((res) => {
                                     console.log(res.data)
                                 })

@@ -8,15 +8,14 @@ const getComment = async (req, res) => {
         res.status(500).send('Lỗi');
     }
 }
-const createComment = async (req, res) => {
+const createComment = async (req, res) => {          
+    console.log('POST : /api/coment');
+    console.log('--------------------');
     try {
         console.log(req.body)
         const newComment = new Comment(req.body);
-        await newComment.save(); // Lưu sản phẩm mới vào cơ sở dữ liệu
-        // res.redirect('/admin')
-        console.log('POST : /api/coment');
-        console.log('--------------------');
-        res.status(200).json('Sản phẩm đã được thêm vào danh sách');
+        await newComment.save(); 
+        res.status(200).json('Bình luận mới đã được thêm vào');
     } catch (error) {
         console.error('Error creating course:', error);
         res.status(500).send('Lỗi không thể thêm dữ liệu');

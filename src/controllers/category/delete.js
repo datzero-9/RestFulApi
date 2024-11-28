@@ -1,7 +1,8 @@
 const Category = require('../../models/category')
 const deleteCategory = async (req, res) => {
     const temp = req.params.id;
-    
+    console.log('DELETE : /api/deleteCategory');
+    console.log('--------------------');
     try {
         const deleteSuccess = await Category.findByIdAndDelete(temp)
         if(deleteSuccess){

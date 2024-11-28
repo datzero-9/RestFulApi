@@ -7,7 +7,7 @@ const OrderDetail = new Schema({
     idProduct: { type: String },
     name: { type: String },
     quantity: { type: Number },
-    price: { type: Number },
+    realPrice: { type: Number },
     image: { type: String },
     createdAt: { type: Date, default: Date.now },
   });

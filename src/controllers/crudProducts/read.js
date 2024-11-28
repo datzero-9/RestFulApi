@@ -3,7 +3,9 @@ const Product = require('../../models/crud')
 
 const getHomepage = async (req, res) => {
     try {
-
+       
+        console.log('GET : /api/getAllProduct');
+        console.log('--------------------');
         const user = req.session.user;
         const Products = await Product.find().sort({ createdAt: -1 }).lean();
         res.status(200).json(Products);
@@ -14,12 +16,11 @@ const getHomepage = async (req, res) => {
 }
 const getItem = async (req, res) => {
     try {
-
-        const productId = req.body.id; // Đảm bảo bạn gửi ID qua query parameter productId
-        console.log('User: GET product')
+       
+        console.log('GET : /api/detailProduct');
         console.log('--------------------');
+        const productId = req.body.id; // Đảm bảo bạn gửi ID qua query parameter productId
         const product = await Product.findById(productId);
-
         if (!product) {
             return res.status(404).json({ message: 'Không tìm thấy sản phẩm' });
         }
@@ -31,7 +32,6 @@ const getItem = async (req, res) => {
 };
 const listProductCategory = async (req, res) => {
     try {
-
         const Products = await Product.find({category:req.params.name}).sort({ createdAt: -1 });
         res.status(200).json(Products);
         console.log(req.params.name)

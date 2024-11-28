@@ -12,6 +12,8 @@ const getItemCategory = async (req, res) => {
 }
 //PUT
 const updateCategory = async (req, res) => {
+    console.log('PUT : /api/updateCategory');
+    console.log('--------------------');
     try {
         const itemCategory = await Category.findById(req.params.id)
         itemCategory.name = req.body.name;

@@ -1,7 +1,8 @@
 const Cart = require('../../models/cart')
 const getCart = async (req, res) => {
+    console.log('GET : /api/getCart');
+    console.log('--------------------');
     try {
-
         const Carts = await Cart.find(req.body).sort({ createdAt: -1 });
         res.status(200).json(Carts);
     } catch (error) {
@@ -10,6 +11,8 @@ const getCart = async (req, res) => {
     }
 }
 const createCart = async (req, res) => {
+    console.log('POST : /api/createCart');
+    console.log('--------------------');
     try {
         const idUser = req.body.idUser;
         const idProduct = req.body.idProduct
@@ -19,8 +22,6 @@ const createCart = async (req, res) => {
         } else {
             const newCart = new Cart(req.body);
             await newCart.save(); // Lưu sản phẩm mới vào cơ sở dữ liệu
-            console.log('Khách hàng đã thêm sản phẩm vào giỏ hàng');
-            console.log('--------------------');
             res.status(200).json({ message: 'Sản phẩm này đã có trong giỏ hàng', status: true });;
         }
 
@@ -30,9 +31,9 @@ const createCart = async (req, res) => {
     }
 }
 const deleteCart = async (req, res) => {
+    console.log('DELETE : /api/deleteCart');
+    console.log('--------------------');
     try {
-
-
         const idCart = req.params.id;
         console.log(idCart)
         const deletedCart = await Cart.findByIdAndDelete(idCart);
@@ -40,8 +41,6 @@ const deleteCart = async (req, res) => {
         if (!deletedCart) {
             return res.status(404).send('Không tìm thấy khóa học để xóa.');
         }
-        console.log('Người dùng đã xóa sản phẩm khỏi cart')
-        console.log('--------------------');
         res.status(200).json('Xóa thành công');
         // res.redirect('/admin');
     } catch (error) {

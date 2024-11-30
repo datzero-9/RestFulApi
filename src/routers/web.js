@@ -47,7 +47,7 @@ router.delete('/deleteProduct/:id', deleteProduct)
 router.post('/detail', getItem)
 router.post('/search', getItemSearch)
 router.get('/', getHomepage)
-router.get('/listProductCategory/:name', listProductCategory)
+router.get('/listProductCategory/:name', listProductCategory) // đaya nè
 
 
 //Cart

@@ -148,7 +148,6 @@ const Callback = async (req, res) => {
         }
         else {
             // thanh toán thành công
-            // merchant cập nhật trạng thái cho đơn hàng
             let dataJson = JSON.parse(dataStr, config.key2);
             const parsedData = JSON.parse(dataJson.item);
             const checkout = {

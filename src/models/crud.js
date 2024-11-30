@@ -13,7 +13,7 @@ const Product = new Schema({
   discount: { type: Number, default:0 },
   description: { type: String },
   image: { type: String, default:'https://res.cloudinary.com/dfv0n3vas/image/upload/v1729475449/uiktrpifwmpgvk3wm3bm.png' },
-  // slug: { type: String, slug: "name", unique: true },
+  slug: { type: String, slug: "name", unique: true },
   createdAt: { type: Date, default: Date.now },
 });
 module.exports = mongoose.model('Product', Product);

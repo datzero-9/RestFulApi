@@ -11,6 +11,8 @@ const getCart = async (req, res) => {
     }
 }
 const createCart = async (req, res) => {
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
     console.log('POST : /api/createCart');
     console.log('--------------------');
     try {

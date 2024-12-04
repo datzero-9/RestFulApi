@@ -1,6 +1,8 @@
 const Order = require('../../models/order');
 
 const getHistories = async (req, res) => {
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
     console.log('POST : api/getHistories');
     console.log('--------------------');
     try {
@@ -17,6 +19,8 @@ const getHistories = async (req, res) => {
 
 const getAllHistories = async (req, res) => {
     try {
+        const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
         console.log('GET : api/getAllHistories');
         console.log('--------------------');
         const orders = await Order.find().sort({ createdAt: -1 });

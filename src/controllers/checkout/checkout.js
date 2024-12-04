@@ -94,14 +94,16 @@ const config = {
 };
 // thanh toán online
 const Payment = async (req, res) => {
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
     console.log('POST : /api/payment')
     console.log('--------------------')
     const embed_data = {
         // redirecturl: 'http://localhost:3000/user/histories'
 
-        // redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
+        redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
 
-        redirecturl: 'https://congnghephanmem.vercel.app/user/cart'
+        // redirecturl: 'https://congnghephanmem.vercel.app/user/cart'
     }
     // console.log(req.body)?
     const items = [req.body];

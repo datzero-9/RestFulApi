@@ -2,7 +2,8 @@ const Product = require('../../models/crud')
 
 
 const deleteProduct = async (req, res) => {
-           
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
     console.log('DELETE : /api/deleteProduct');
     console.log('--------------------');
     try {

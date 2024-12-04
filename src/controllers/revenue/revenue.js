@@ -1,5 +1,7 @@
 const Order = require('../../models/order');
 const Revenue = async (req, res) => {
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
     console.log('GET : /api/revenue');
     console.log('--------------------');
     const orders = await Order.find().sort({ createdAt: -1 });

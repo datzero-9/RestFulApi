@@ -1,6 +1,8 @@
 const OrderDetail = require('../../models/order_detail');
 const Product = require('../../models/crud');
 const getOrderDetail = async (req, res) => {
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
     console.log('POST : /api/orderDetail');
     console.log('--------------------');
     try {

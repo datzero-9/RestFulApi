@@ -49,7 +49,7 @@ const login = (req, res) => {
 
 const dangnhap = async (req, res) => {
   try {
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
     console.log(`Client IP: ${clientIp}`);
     console.log('Request : POST : Đăng nhập')
     console.log('--------------------');
@@ -69,6 +69,8 @@ const dangnhap = async (req, res) => {
   }
 }
 const logout = (req, res) => {
+  const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+  console.log(`Client IP: ${clientIp}`);
   console.log('Request : POST : Đăng xuất')
   console.log('--------------------');
   req.session.destroy((err) => {
@@ -84,6 +86,8 @@ const logout = (req, res) => {
 
 const infoUser = async (req, res) => {
   try {
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
     console.log('POST : /api/infoUser')
     console.log('--------------------');
     const user = await Account.findOne({ _id: req.body.id });
@@ -112,7 +116,7 @@ const changeInfo = async (req, res) => {
 }
 
 
-const getListUser = async(req,res) => {
+const getListUser = async (req, res) => {
   try {
     console.log('GET : /api/listUser')
     console.log('--------------------');
@@ -124,4 +128,4 @@ const getListUser = async(req,res) => {
     res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
   }
 }
-module.exports = { register, login, createRegister, dangnhap, logout, infoUser, changeInfo,getListUser };
+module.exports = { register, login, createRegister, dangnhap, logout, infoUser, changeInfo, getListUser };

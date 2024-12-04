@@ -49,6 +49,8 @@ const login = (req, res) => {
 
 const dangnhap = async (req, res) => {
   try {
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    console.log(`Client IP: ${clientIp}`);
     console.log('Request : POST : Đăng nhập')
     console.log('--------------------');
     const username = req.body.username;

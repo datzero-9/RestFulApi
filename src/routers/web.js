@@ -74,6 +74,6 @@ router.get('/revenue', Revenue)
 // router.get('/course/edit/:id', edit)
 // router.get('/course/delete/:id', deleteProduct)
 //user
-
+//lỗi điều hướng
 router.get('/:id', NotFound)
 module.exports = router;

@@ -3,7 +3,8 @@ const Product = require('../../models/crud')
 
 const getHomepage = async (req, res) => {
     try {
-       
+        const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+        console.log(`Client IP: ${clientIp}`);
         console.log('GET : /api/getAllProduct');
         console.log('--------------------');
         const user = req.session.user;
@@ -16,7 +17,8 @@ const getHomepage = async (req, res) => {
 }
 const getItem = async (req, res) => {
     try {
-       
+        const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+        console.log(`Client IP: ${clientIp}`);
         console.log('GET : /api/detailProduct');
         console.log('--------------------');
         const productId = req.body.id; // Đảm bảo bạn gửi ID qua query parameter productId

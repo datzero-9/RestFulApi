@@ -1,0 +1,95 @@
+.flex {
+  display: flex;
+}
+
+#itemsToToggle {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar1 {
+  flex: 1;
+  background-color: #f0f0f0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.input {
+  flex: 3;
+  position: sticky;
+  top: 0;
+  background-color: rgb(252, 250, 250);
+}
+
+.search {
+  width: 100%;
+  height: 50px;
+  padding-left: 30px;
+}
+
+.below {
+  width: 100%;
+  padding-bottom: 5px;
+  border-bottom: 2px solid black;
+}
+
+.img {
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+}
+
+.a {
+  text-decoration: none;
+  color: black;
+}
+
+.a:hover {
+  color: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+.p {
+  margin: 0;
+}
+
+.click:hover {
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: rgb(212, 212, 219);
+  padding: 5px;
+}
+
+.items {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.hover:hover {
+  background-color: rgb(199, 195, 192);
+  transition: 0.5s ease;
+  padding: 10px;
+  color: #fff;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}/*# sourceMappingURL=app.css.map */

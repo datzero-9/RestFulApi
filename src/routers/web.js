@@ -38,15 +38,15 @@ router.post('/comment', createComment)
 router.post('/getComment', getComment)
 
 //crud product
-router.get('/', getHomepage)
-router.get('/add', addProduct)
+router.post('/', getHomepage)
+// router.get('/add', addProduct)
 router.post('/createProduct', Create)
 router.get('/getProduct/:id', edit)
 router.put('/updateProduct/:id', updateCourse)
 router.delete('/deleteProduct/:id', deleteProduct)
 router.post('/detail', getItem)
 router.post('/search', getItemSearch)
-router.get('/', getHomepage)
+// router.get('/', getHomepage)
 router.get('/listProductCategory/:name', listProductCategory) // đaya nè
 
 

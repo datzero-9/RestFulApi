@@ -4,7 +4,7 @@ const createCategory = async (req, res) => {
     console.log('--------------------');
     try {
         const newCategory = Category({
-            name: req.body.name
+            name: req.body.name.trim()
         })
         await newCategory.save()
         res.status(200).json('Tạo thành công');

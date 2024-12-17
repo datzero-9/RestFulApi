@@ -16,7 +16,7 @@ const updateCategory = async (req, res) => {
     console.log('--------------------');
     try {
         const itemCategory = await Category.findById(req.params.id)
-        itemCategory.name = req.body.name;
+        itemCategory.name = req.body.name.trim();
         await itemCategory.save()
         res.status(200).json('Thay đổi thành công danh mục')
     } catch (error) {

@@ -35,7 +35,6 @@ const getHomepage = async (req, res) => {
         if (req.body.category && req.body.category.length > 0) {
             filter.category = { $in: req.body.category };  // Lọc theo danh mục được chọn
         }
-        console.log(filter)
         // Truy vấn sản phẩm với các bộ lọc
         const Products = await Product.find(filter).sort({ createdAt: -1 });
 

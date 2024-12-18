@@ -1,30 +1,25 @@
-const Product = require('../../models/crud')
+const Product = require('../../models/crud');
 
 const getItemSearch = async (req, res) => {
-    const productName = req.body.text;
+    const productName = req.body.text?.trim(); // Loại bỏ khoảng trắng thừa
+
+    console.log("Tìm kiếm sản phẩm:", productName);
 
     try {
-        if (productName) {
-            // Loại bỏ các ký tự đặc biệt và tạo regex
-            const sanitizedProductName = productName.replace(/[^a-zA-Z0-9\s]/g, ''); // Giữ lại chữ cái, số và khoảng trắng
-            const regex = new RegExp(escapeRegex(sanitizedProductName), 'i'); // 'i' để không phân biệt chữ hoa chữ thường
-            const products = await Product.find({
-                name: { $regex: regex }
-            });
-
-            res.json(products);
+        if (productName.length > 0) {
+            // Tạo regex để tìm kiếm không phân biệt chữ hoa/chữ thường
+            const regex = new RegExp(productName, 'i'); // 'i' để không phân biệt hoa/thường
+            const products = await Product.find({ name: { $regex: regex } });
+            res.json(products); // Trả về kết quả tìm thấy
         } else {
-            const products = [];
-            res.json(products);
+            const regex = new RegExp(productName, 'i'); // 'i' để không phân biệt hoa/thường
+            const products = await Product.find({ name: { $regex: regex } });
+            res.json([]);
         }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi tìm kiếm sản phẩm.' });
     }
-}
-
-function escapeRegex(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-} 
+};
 
 module.exports = getItemSearch;

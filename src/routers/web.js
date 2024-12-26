@@ -68,7 +68,7 @@ router.get('/getAllHistories', getAllHistories)
 router.post('/orderdetail', getOrderDetail)
 
 
-router.get('/revenue', Revenue)
+router.get('/revenue/:year', Revenue)
 // router.post('/course/create', Create)
 // router.put('/course/update/:id', updateCourse)
 // router.get('/course/edit/:id', edit)

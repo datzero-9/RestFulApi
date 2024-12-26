@@ -1,6 +1,29 @@
 
 const Product = require('../../models/crud')
+const ListImage = require('../../models/list_images');
 
+
+const deleteProduct = async (req, res) => {
+    const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
+    console.log(`Client IP: ${clientIp}`);
+    console.log('DELETE : /api/deleteProduct');
+    console.log('--------------------');
+    try {
+        // Loại bỏ khoảng trắng cuối cùng trong chuỗi ID
+        const courseId = req.params.id;
+        const deletedCourse = await Product.findByIdAndDelete(courseId);
+        const listImages = await ListImages.findByIdAndDelete({ idProduct: courseId });
+        if (!deletedCourse) {
+            return res.status(404).send('Không tìm thấy SP để xóa.');
+        }
+
+        res.status(200).json('Xóa thành công');
+    } catch (error) {
+        console.error('Lỗi khi xóa khóa học:', error);
+        res.status(500).send('Lỗi máy chủ nội bộ');
+    }
+};
+module.exports = deleteProduct;
 const getHomepage = async (req, res) => {
     try {
         let filter = {};  // Tạo đối tượng filter để chứa các điều kiện lọc
@@ -40,7 +63,7 @@ const getHomepage = async (req, res) => {
 
         // Trả về kết quả
         res.status(200).json(Products);
-        
+
     } catch (error) {
         console.error('Error fetching products:', error);
         res.status(500).send('Lỗi');
@@ -55,10 +78,11 @@ const getItem = async (req, res) => {
         console.log('--------------------');
         const productId = req.body.id; // Đảm bảo bạn gửi ID qua query parameter productId
         const product = await Product.findById(productId);
+        const listImages = await ListImage.find({ idProduct: productId });
         if (!product) {
             return res.status(404).json({ message: 'Không tìm thấy sản phẩm' });
         }
-        res.json(product);
+        res.status(200).json([product, listImages]);
     } catch (error) {
         console.error('Lỗi khi truy vấn sản phẩm:', error);
         res.status(500).json({ message: 'Đã xảy ra lỗi' });

@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const Comment = new Schema({
     text: { type: String },
+    star: { type: Number },
     name: { type: String },
     image: { type: String },
     idUser: { type: String },

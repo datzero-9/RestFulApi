@@ -1,9 +1,9 @@
 const Order = require('../../models/order')
 const OrderDetail = require('../../models/order_detail')
 const { getCart, createCart, deleteCart, deleteAllCart } = require('../Cart/Cart')
-const axios = require('axios').default; // npm install axios
-const CryptoJS = require('crypto-js'); // npm install crypto-js
-const moment = require('moment'); // npm install moment
+const axios = require('axios').default;
+const CryptoJS = require('crypto-js');
+const moment = require('moment');
 
 const Product = require('../../models/crud')
 
@@ -30,19 +30,16 @@ const Checkout = async (req, res) => {
         // Lấy ID của đơn hàng vừa tạo
         const orderId = newOrder._id;
 
-        // Duyệt qua từng sản phẩm trong giỏ hàng
         const orderDetails = [];
         for (const cartItem of listCart) {
             const { idProduct, quantity } = cartItem;
 
-            // Lấy thông tin sản phẩm từ database
             const product = await Product.findById(idProduct);
 
             if (!product) {
                 return res.status(404).json({ message: `Sản phẩm với ID ${idProduct} không tồn tại` });
             }
 
-            // Kiểm tra tồn kho
             if (product.warehouse < quantity) {
                 return res.status(400).json({
                     message: `Sản phẩm "${product.name}" không đủ hàng. Hiện tại còn ${product.stock} sản phẩm.`,
@@ -61,9 +58,8 @@ const Checkout = async (req, res) => {
                 image: product.image,
             });
         }
-        
 
-        // Lưu tất cả chi tiết đơn hàng cùng lúc
+
         await OrderDetail.insertMany(orderDetails);
 
         res.status(201).json({ message: 'Checkout thành công', orderId });
@@ -99,9 +95,9 @@ const Payment = async (req, res) => {
     console.log('POST : /api/payment')
     console.log('--------------------')
     const embed_data = {
-        // redirecturl: 'http://localhost:3000/user/histories'
+        redirecturl: 'http://localhost:3000/user/histories'
 
-        redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
+        // redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
 
         // redirecturl: 'https://congnghephanmem.vercel.app/user/cart'
     }
@@ -119,7 +115,7 @@ const Payment = async (req, res) => {
         description: `LSHOP-TECH - Thanh toán cho đơn hàng #${transID}`,
         bank_code: "",
         callback_url: 'https://restfulapi-aci6.onrender.com/api/callback'
-        // callback_url: 'https://1057-116-98-165-182.ngrok-free.app/api/callback'
+        // callback_url: 'https://4fe8-116-105-208-170.ngrok-free.app/api/callback'
     };
     // appid|app_trans_id|appuser|amount|apptime|embeddata|item
     const data = config.app_id + "|" + order.app_trans_id + "|" + order.app_user + "|" + order.amount + "|" + order.app_time + "|" + order.embed_data + "|" + order.item;
@@ -136,7 +132,7 @@ const Payment = async (req, res) => {
 }
 const Callback = async (req, res) => {
     let result = {};
-
+    console.log('vô dc đây rồi')
     try {
         let dataStr = req.body.data;
         let reqMac = req.body.mac;
@@ -152,6 +148,7 @@ const Callback = async (req, res) => {
             // thanh toán thành công
             let dataJson = JSON.parse(dataStr, config.key2);
             const parsedData = JSON.parse(dataJson.item);
+            console.log(parsedData)
             const checkout = {
                 idUser: parsedData[0].idUser,
                 address: parsedData[0].address,
@@ -165,11 +162,11 @@ const Callback = async (req, res) => {
 
             try {
                 axios.post('https://restfulapi-aci6.onrender.com/api/checkout', checkout)
-                    // axios.post('https://1057-116-98-165-182.ngrok-free.app/api/checkout', checkout)
+                // axios.post('https://4fe8-116-105-208-170.ngrok-free.app/api/checkout', checkout)
                     .then((res) => {
                         try {
                             axios.delete(`https://restfulapi-aci6.onrender.com/api/deleteAllCart/${checkout.idUser}`)
-                                // axios.delete(`https://1057-116-98-165-182.ngrok-free.app/api/deleteAllCart/${checkout.idUser}`)
+                            // axios.delete(`https://4fe8-116-105-208-170.ngrok-free.app/api/deleteAllCart/${checkout.idUser}`)
                                 .then((res) => {
                                     console.log(res.data)
                                 })

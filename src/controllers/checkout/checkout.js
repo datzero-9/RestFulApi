@@ -95,9 +95,9 @@ const Payment = async (req, res) => {
     console.log('POST : /api/payment')
     console.log('--------------------')
     const embed_data = {
-        redirecturl: 'http://localhost:3000/user/histories'
+        // redirecturl: 'http://localhost:3000/user/histories'
 
-        // redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
+        redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
 
         // redirecturl: 'https://congnghephanmem.vercel.app/user/cart'
     }

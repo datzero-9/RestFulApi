@@ -6,7 +6,7 @@ const CryptoJS = require('crypto-js');
 const moment = require('moment');
 
 const Product = require('../../models/crud')
-
+const api = 'https://a9aa-116-110-94-16.ngrok-free.app/webhook/comfirm-order';
 const Checkout = async (req, res) => {
     try {
         const idUser = req.body.idUser;
@@ -59,7 +59,11 @@ const Checkout = async (req, res) => {
             });
         }
 
-
+        //webhook
+        axios.post(`${api}`, {})
+            .then((res) => {
+                console.log('gọi đến webhook thành công')
+            })
         await OrderDetail.insertMany(orderDetails);
 
         res.status(201).json({ message: 'Checkout thành công', orderId });
@@ -162,16 +166,10 @@ const Callback = async (req, res) => {
 
             try {
                 axios.post('https://restfulapi-aci6.onrender.com/api/checkout', checkout)
-                    // axios.post('https://4fe8-116-105-208-170.ngrok-free.app/api/checkout', checkout)
                     .then((res) => {
                         try {
                             axios.delete(`https://restfulapi-aci6.onrender.com/api/deleteAllCart/${checkout.idUser}`)
-                                // axios.delete(`https://4fe8-116-105-208-170.ngrok-free.app/api/deleteAllCart/${checkout.idUser}`)
                                 .then((res) => {
-                                    axios.post(`https://a9aa-116-110-94-16.ngrok-free.app/webhook/comfirm-order`, {})
-                                        .then((res) => {
-                                            console.log('gọi đến webhook thành công')
-                                        })
                                     console.log(res.data)
                                 })
                         } catch (error) {

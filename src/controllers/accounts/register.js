@@ -18,7 +18,7 @@ const createRegister = async (req, res) => {
   try {
     console.log('Request : POST : Tạo tài khoản');
     console.log('--------------------');
-    const { name, username, password } = req.body;
+    const { name, username, password, code } = req.body;
     // Tìm tài khoản đã tồn tại
     const existingAccount = await Account.findOne({ username });
     if (existingAccount) {
@@ -28,6 +28,7 @@ const createRegister = async (req, res) => {
         name,
         username,
         password,
+        code
       });
       await newAccount.save();
       res.status(200).json({ message: 'tạo tài khoản thành công', status: true })
@@ -39,11 +40,29 @@ const createRegister = async (req, res) => {
   }
 };
 
+const comfirmAccount = async (req, res) => {
+  try {
+    const { name, username, password, code } = req.body;
+    const existingCode = await Account.findOne({ code, username });
+    console.log(req.body)
+    console.log(existingCode)
+    if (existingCode) {
+      const newAccount = new Account({
+        name,
+        username,
+        password,
+        code
+      });
+      await newAccount.save();
+      res.status(200).json({ message: 'tạo tài khoản thành công', status: true })
+    } else {
+      res.status(200).json({ message: 'tạo tài khoản không thành công', status: false })
+    }
 
-const login = (req, res) => {
-  console.log('Request : GET : Đăng nhập')
-  console.log('--------------------');
-  res.render('login', { layout: false })
+  } catch (error) {
+    console.error('Error creating account:', error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
+  }
 }
 
 
@@ -57,6 +76,7 @@ const dangnhap = async (req, res) => {
     const password = req.body.password;
     // Tìm tài khoản đã tồn tại
     const existingAccount = await Account.findOne({ username: username, password: password });
+    console.log(existingAccount)
     if (existingAccount) {
       res.status(200).json(existingAccount)
     } else {
@@ -128,4 +148,4 @@ const getListUser = async (req, res) => {
     res.status(500).json({ message: 'Có lỗi xảy ra khi tạo tài khoản' });
   }
 }
-module.exports = { register, login, createRegister, dangnhap, logout, infoUser, changeInfo, getListUser };
+module.exports = { register, createRegister, dangnhap, logout, infoUser, changeInfo, getListUser, comfirmAccount };

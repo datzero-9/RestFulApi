@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const Order = new Schema({
   idUser: { type: String },
-  email: { type: String, default: 'datht.22ite@vku.udn.vn' },
+  email: { type: String },
   address: { type: String },
   total: { type: Number },
   phone: { type: Number },

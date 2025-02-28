@@ -1,4 +1,5 @@
 const Order = require('../../models/order')
+const Account = require('../../models/accounts')
 const OrderDetail = require('../../models/order_detail')
 const { getCart, createCart, deleteCart, deleteAllCart } = require('../Cart/Cart')
 const axios = require('axios').default;
@@ -11,6 +12,7 @@ const api = 'https://7d3b-116-110-94-16.ngrok-free.app/webhook/comfirm-order';
 
 const Checkout = async (req, res) => {
     try {
+        
         const idUser = req.body.idUser;
         const address = req.body.address;
         const phone = req.body.phone;
@@ -19,9 +21,12 @@ const Checkout = async (req, res) => {
         const total = req.body.total;
         const payment = req.body.payment;
         const listCart = req.body.listCart;
-
+        const user = await Account.findOne({ _id:idUser });
+        const email = user.username;
+        console.log(email)
         const newOrder = await Order.create({
             idUser,
+            email,
             address,
             phone,
             note,

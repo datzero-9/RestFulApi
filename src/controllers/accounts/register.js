@@ -1,6 +1,7 @@
 
 const Account = require('../../models/accounts')
 const session = require('express-session');
+const axios = require('axios').default;
 const register = (req, res) => {
   let userIp = req.ip || req.connection.remoteAddress;
 
@@ -31,6 +32,8 @@ const createRegister = async (req, res) => {
         code
       });
       await newAccount.save();
+      //webhook register
+      axios.post(`https://7d3b-116-110-94-16.ngrok-free.app/webhook/verificationCode`, { });
       res.status(200).json({ message: 'tạo tài khoản thành công', status: true })
       // res.render('login', { layout: false, title: true })
     }
@@ -47,13 +50,9 @@ const comfirmAccount = async (req, res) => {
     console.log(req.body)
     console.log(existingCode)
     if (existingCode) {
-      const newAccount = new Account({
-        name,
-        username,
-        password,
-        code
-      });
-      await newAccount.save();
+      existingCode.name = name;
+      existingCode.password = password;
+      existingCode.save();
       res.status(200).json({ message: 'tạo tài khoản thành công', status: true })
     } else {
       res.status(200).json({ message: 'tạo tài khoản không thành công', status: false })

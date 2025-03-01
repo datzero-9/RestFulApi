@@ -8,7 +8,7 @@ const moment = require('moment');
 
 const Product = require('../../models/crud')
 
-const api = 'https://44c6-14-236-23-195.ngrok-free.app/webhook/comfirm-order';
+const api = 'https://f0e6-14-243-161-130.ngrok-free.app/webhook/comfirm-order';
 
 const Checkout = async (req, res) => {
     try {

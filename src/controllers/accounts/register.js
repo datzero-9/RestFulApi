@@ -33,7 +33,7 @@ const createRegister = async (req, res) => {
       });
       await newAccount.save();
       //webhook register
-      axios.post(`https://7d3b-116-110-94-16.ngrok-free.app/webhook/verificationCode`, { });
+      axios.post(`https://44c6-14-236-23-195.ngrok-free.app/webhook/verificationCode`, { });
       res.status(200).json({ message: 'tạo tài khoản thành công', status: true })
       // res.render('login', { layout: false, title: true })
     }

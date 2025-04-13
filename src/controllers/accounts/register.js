@@ -9,16 +9,13 @@ const register = (req, res) => {
   if (req.headers['x-forwarded-for']) {
     userIp = req.headers['x-forwarded-for'].split(',')[0];
   }
-  console.log('IP Người truy cập: ' + userIp);
-  console.log('Request : GET : Đăng kÝ')
-  console.log('--------------------');
   res.render('register', { layout: false })
 }
 
 const createRegister = async (req, res) => {
   try {
-    console.log('Request : POST : Tạo tài khoản');
-    console.log('--------------------');
+    const webhook = 'https://e8ca-2401-d800-2570-9a7d-5079-6012-24ba-e746.ngrok-free.app';
+
     const { name, username, password, code } = req.body;
     // Tìm tài khoản đã tồn tại
     const existingAccount = await Account.findOne({ username });
@@ -33,7 +30,7 @@ const createRegister = async (req, res) => {
       });
       await newAccount.save();
       //webhook register
-      axios.post(`https://f0e6-14-243-161-130.ngrok-free.app/webhook/verificationCode`, { });
+      axios.post(`${webhook}/webhook/verificationCode`, {});
       res.status(200).json({ message: 'tạo tài khoản thành công', status: true })
       // res.render('login', { layout: false, title: true })
     }

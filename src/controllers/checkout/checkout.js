@@ -7,8 +7,9 @@ const CryptoJS = require('crypto-js');
 const moment = require('moment');
 
 const Product = require('../../models/crud')
-
-const api = 'https://f0e6-14-243-161-130.ngrok-free.app/webhook/comfirm-order';
+const  backend = 'https://restfulapi-aci6.onrender.com'
+const  frontend = 'http://192.168.202.112:3000'
+const webhook = 'https://e8ca-2401-d800-2570-9a7d-5079-6012-24ba-e746.ngrok-free.app';
 
 const Checkout = async (req, res) => {
     try {
@@ -67,7 +68,7 @@ const Checkout = async (req, res) => {
         }
 
         //webhook
-        axios.post(`${api}`, {})
+        axios.post(`${webhook}/webhook/comfirm-order`, {})
             .then((res) => {
                 console.log('gọi đến webhook thành công')
             })
@@ -106,18 +107,14 @@ const Payment = async (req, res) => {
     console.log('POST : /api/payment')
     console.log('--------------------')
     const embed_data = {
-        // redirecturl: 'http://localhost:3000/user/histories'
-
-        redirecturl: 'https://www.laptrinhmang3.xyz/user/cart'
-
-        // redirecturl: 'https://congnghephanmem.vercel.app/user/cart'
+        redirecturl: `${frontend}/user/histories`
     }
     // console.log(req.body)?
     const items = [req.body];
     const transID = Math.floor(Math.random() * 1000000);
     const order = {
         app_id: config.app_id,
-        app_trans_id: `${moment().format('YYMMDD')}_${transID}`, // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
+        app_trans_id: `${moment().format('YYMMDD')}_${transID}`, 
         app_user: "user123",
         app_time: Date.now(), // miliseconds
         item: JSON.stringify(items),
@@ -125,8 +122,8 @@ const Payment = async (req, res) => {
         amount: req.body.total,
         description: `LSHOP-TECH - Thanh toán cho đơn hàng #${transID}`,
         bank_code: "",
-        callback_url: 'https://restfulapi-aci6.onrender.com/api/callback'
-        // callback_url: 'https://4fe8-116-105-208-170.ngrok-free.app/api/callback'
+        callback_url: `${backend}/api/callback`
+
     };
     // appid|app_trans_id|appuser|amount|apptime|embeddata|item
     const data = config.app_id + "|" + order.app_trans_id + "|" + order.app_user + "|" + order.amount + "|" + order.app_time + "|" + order.embed_data + "|" + order.item;
@@ -172,10 +169,10 @@ const Callback = async (req, res) => {
             }
 
             try {
-                axios.post('https://restfulapi-aci6.onrender.com/api/checkout', checkout)
+                axios.post(`${backend}/api/checkout`, checkout)
                     .then((res) => {
                         try {
-                            axios.delete(`https://restfulapi-aci6.onrender.com/api/deleteAllCart/${checkout.idUser}`)
+                            axios.delete(`${backend}/api/deleteAllCart/${checkout.idUser}`)
                                 .then((res) => {
                                     console.log(res.data)
                                 })
@@ -186,9 +183,6 @@ const Callback = async (req, res) => {
             } catch (error) {
                 console.log('Có lỗi xảy ra: ' + error)
             }
-            //  console.log("update order's status = success where app_trans_id =", dataJson["app_trans_id"]);
-            console.log('POST : /api/callBack')
-            console.log('--------------------')
             result.return_code = 1;
             result.return_message = "success";
         }
@@ -196,7 +190,7 @@ const Callback = async (req, res) => {
         result.return_code = 0; // ZaloPay server sẽ callback lại (tối đa 3 lần)
         result.return_message = ex.message;
     }
-    // thông báo kết quả cho ZaloPay server
+
     return res.json(result);
 
 }

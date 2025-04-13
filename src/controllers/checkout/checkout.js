@@ -7,8 +7,8 @@ const CryptoJS = require('crypto-js');
 const moment = require('moment');
 
 const Product = require('../../models/crud')
-const  backend = 'https://restfulapi-aci6.onrender.com'
-const  frontend = 'http://192.168.202.112:3000'
+const  backend = 'https://restfulapi-aci6.onrender.com/api';
+const  frontend = 'http://192.168.202.112:3000';
 const webhook = 'https://e8ca-2401-d800-2570-9a7d-5079-6012-24ba-e746.ngrok-free.app';
 
 const Checkout = async (req, res) => {
@@ -100,16 +100,14 @@ const config = {
     key2: "kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz",
     endpoint: "https://sb-openapi.zalopay.vn/v2/create"
 };
-// thanh toán online
+
 const Payment = async (req, res) => {
     const clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(',')[0].trim();
     console.log(`Client IP: ${clientIp}`);
-    console.log('POST : /api/payment')
-    console.log('--------------------')
+
     const embed_data = {
         redirecturl: `${frontend}/user/histories`
     }
-    // console.log(req.body)?
     const items = [req.body];
     const transID = Math.floor(Math.random() * 1000000);
     const order = {
@@ -122,10 +120,10 @@ const Payment = async (req, res) => {
         amount: req.body.total,
         description: `LSHOP-TECH - Thanh toán cho đơn hàng #${transID}`,
         bank_code: "",
-        callback_url: `${backend}/api/callback`
+        callback_url: `${backend}/callback`
 
     };
-    // appid|app_trans_id|appuser|amount|apptime|embeddata|item
+
     const data = config.app_id + "|" + order.app_trans_id + "|" + order.app_user + "|" + order.amount + "|" + order.app_time + "|" + order.embed_data + "|" + order.item;
     order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
     // console.log(order)
@@ -140,7 +138,7 @@ const Payment = async (req, res) => {
 }
 const Callback = async (req, res) => {
     let result = {};
-    console.log('vô dc đây rồi')
+    console.log('vô dc đây rồi haha')
     try {
         let dataStr = req.body.data;
         let reqMac = req.body.mac;
@@ -169,10 +167,10 @@ const Callback = async (req, res) => {
             }
 
             try {
-                axios.post(`${backend}/api/checkout`, checkout)
+                axios.post(`${backend}/checkout`, checkout)
                     .then((res) => {
                         try {
-                            axios.delete(`${backend}/api/deleteAllCart/${checkout.idUser}`)
+                            axios.delete(`${backend}/deleteAllCart/${checkout.idUser}`)
                                 .then((res) => {
                                     console.log(res.data)
                                 })

@@ -5,11 +5,14 @@ const { getCart, createCart, deleteCart, deleteAllCart } = require('../Cart/Cart
 const axios = require('axios').default;
 const CryptoJS = require('crypto-js');
 const moment = require('moment');
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const Product = require('../../models/crud')
+// const  backend = 'https://restfulapi-aci6.onrender.com/api';
+const  ngrok = 'https://068b-116-110-217-24.ngrok-free.app/api'; //đẻ zalopay gọi đến backend callback
+// const  backend = 'http://localhost:80/api';
 const  backend = 'https://restfulapi-aci6.onrender.com/api';
-const  frontend = 'http://192.168.202.112:3000';
-const webhook = 'https://e8ca-2401-d800-2570-9a7d-5079-6012-24ba-e746.ngrok-free.app';
+const  frontend = ' https://6aef-116-110-218-125.ngrok-free.app';
+const webhook = 'https://n8n.laptrinhmang3.xyz';
 
 const Checkout = async (req, res) => {
     try {
@@ -120,7 +123,8 @@ const Payment = async (req, res) => {
         amount: req.body.total,
         description: `LSHOP-TECH - Thanh toán cho đơn hàng #${transID}`,
         bank_code: "",
-        callback_url: `${backend}/callback`
+        // callback_url: `${backend}/callback`
+        callback_url: `${ngrok}/callback`
 
     };
 

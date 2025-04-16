@@ -2,6 +2,8 @@
 const Account = require('../../models/accounts')
 const session = require('express-session');
 const axios = require('axios').default;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+// const https = require('https');
 const register = (req, res) => {
   let userIp = req.ip || req.connection.remoteAddress;
 
@@ -14,8 +16,10 @@ const register = (req, res) => {
 
 const createRegister = async (req, res) => {
   try {
-    const webhook = 'https://e8ca-2401-d800-2570-9a7d-5079-6012-24ba-e746.ngrok-free.app';
-
+    const webhook = 'https://n8n.laptrinhmang3.xyz';
+    // const agent = new https.Agent({
+    //   rejectUnauthorized: false
+    // });
     const { name, username, password, code } = req.body;
     // Tìm tài khoản đã tồn tại
     const existingAccount = await Account.findOne({ username });
@@ -29,7 +33,7 @@ const createRegister = async (req, res) => {
         code
       });
       await newAccount.save();
-      //webhook register
+      console.log("vô dây")
       axios.post(`${webhook}/webhook/verificationCode`, {});
       res.status(200).json({ message: 'tạo tài khoản thành công', status: true })
       // res.render('login', { layout: false, title: true })
